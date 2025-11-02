@@ -514,6 +514,13 @@ nav a.active {
   align-items: center;
   gap: 0;
   height: 110px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.site-header .logo:hover {
+  opacity: 0.8;
 }
 
 .site-header .logo img:first-of-type {

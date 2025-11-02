@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Recicla+</title>
+  <link rel="icon" type="image/png" href="icone_pesquisa.png" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="logo">
+    <img src="logo.png" alt="Recicla+">
+    <img src="nome.png" alt="Recicla+" class="nome-logo">
+  </div>
+
+  <nav class="main-nav">
+    <a href="./index.html" class="nav-link">Home</a>
+    <a href="./materiais.html" class="nav-link">Materiais de Reciclagem</a>
+    <a href="./blog.html" class="nav-link">Blog</a>
+    <button id="hamburger" class="hamburger" aria-label="Abrir menu">☰</button>
+  </nav>
+
+  <div id="menu-mobile" class="menu-mobile">
+    <a href="./index.html" class="mobile-link mobile-home">Home</a>
+    <a href="./materiais.html" class="mobile-link mobile-materiais">Materiais de Reciclagem</a>
+    <a href="./blog.html" class="mobile-link mobile-blog">Blog</a>
+    <a href="./regras.html" class="mobile-regras">Regras da Recompensa</a>
+    <a href="./login.html" class="mobile-login">Login</a>
+  </div>
+</header>
+
+<main>
+  <section class="login-content">
+    <div class="login-container">
+      <div class="login-header">
+        <h1>Recicla+</h1>
+        <h2>Conecte-se à sua conta</h2>
+        <p>Acesse sua conta para gerenciar reciclagens, acompanhar recompensas e participar da rede sustentável, seja como parceiro ou reciclador.</p>
+      </div>
+
+      <form class="login-form">
+        <div class="form-group">
+          <label for="login">Login</label>
+          <input type="text" id="login" name="login" placeholder="Digite seu login">
+        </div>
+
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" name="senha" placeholder="Digite sua senha">
+        </div>
+
+        <div class="separator"></div>
+
+        <button type="submit" class="login-btn">Entrar</button>
+
+<div class="register-link">
+  <p>Não tem conta no Recicla+ ? <a href="./cadastro.html">Você pode criar uma!</a></p>
+</div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- Botão hambúrguer do menu lateral -->
+<div id="menu-btn" class="menu-btn">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- MENU LATERAL -->
+<nav id="side-menu" class="side-menu">
+  <button class="close-btn" id="close-menu">&times;</button>
+  <ul>
+    <li class="menu-item">
+      <i class="fa fa-info-circle"></i>
+      <span>Regras da Recompensa</span>
+    </li>
+    <li class="menu-item active">
+      <i class="fa fa-user-circle"></i>
+      <span>Login</span>
+    </li>
+  </ul>
+</nav>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h4>Recicla+</h4>
+      <p>Pontos de coleta perto de você e benefícios no seu bolso.</p>
+    </div>
+    <div class="footer-section">
+      <h4>Localização</h4>
+      <p><i class="fa fa-map-marker-alt"></i> Criciúma, Santa Catarina</p>
+    </div>
+    <div class="footer-section">
+      <h4>Contato</h4>
+      <a href="https://wa.me/5548988016101" target="_blank" class="whatsapp-link">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
+      <a href="https://instagram.com/reciclamais" target="_blank" class="instagram-link">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+    </div>
+    <div class="footer-section">
+      <h4>Links Rápidos</h4>
+      <a href="./index.html">Home</a>
+      <a href="./materiais.html">Materiais de Reciclagem</a>
+      <a href="./blog.html">Blog</a>
+      <a href="./regras.html">Regras da Recompensa</a>
+      <a href="./login.html">Login</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2024 Recicla+. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+

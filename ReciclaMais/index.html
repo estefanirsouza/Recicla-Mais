@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recicla+</title>
+  <link rel="icon" type="image/png" href="icone_pesquisa.png" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="logo">
+    <img src="logo.png" alt="Recicla+">
+    <img src="nome.png" alt="Recicla+" class="nome-logo">
+  </div>
+
+<nav class="main-nav">
+  <a href="./index.html" class="nav-link active">Home</a>
+  <a href="./materiais.html" class="nav-link">Materiais de Reciclagem</a>
+  <a href="./blog.html" class="nav-link">Blog</a>
+  <button id="hamburger" class="hamburger" aria-label="Abrir menu">☰</button>
+</nav>
+
+<div id="menu-mobile" class="menu-mobile">
+  <a href="./index.html" class="mobile-link mobile-home">Home</a>
+  <a href="./materiais.html" class="mobile-link mobile-materiais">Materiais de Reciclagem</a>
+  <a href="./blog.html" class="mobile-link mobile-blog">Blog</a>
+  <a href="./regras.html" class="mobile-regras">Regras da Recompensa</a>
+  <a href="./login.html" class="mobile-login">Login</a>
+</div>
+</header>
+
+<main>
+  <section class="carousel">
+    <div class="carousel-slide active" style="background-image:url('sistema.png')">
+      <h2>Reciclar gera recompensas hoje e garante um mundo melhor amanhã.</h2>
+    </div>
+    <div class="carousel-slide" style="background-image:url('sustentabilidade.png')">
+      <h2>Participe dessa mudança e ajude o planeta.</h2>
+    </div>
+  </section>
+  <div class="carousel-dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+  </div>
+
+  <section class="busca-mapa">
+    <div class="busca-mapa-container">
+      <div class="busca-mapa-left">
+        <h3>Encontre seu ponto de Reciclagem e receba sua Recompensa</h3>
+        <p>Reciclar nunca foi tão fácil! Localize o ponto de coleta mais próximo, entregue seus materiais e acumule recompensas exclusivas. Cada item reciclado ajuda a reduzir o impacto no meio ambiente e ainda garante benefícios para você.</p>
+        <p>Faça parte dessa mudança: recicle, ganhe e contribua para um futuro mais sustentável.</p>
+        <div class="busca">
+          <input type="text" id="cep" placeholder="CEP" />
+          <button id="buscar"><img src="busca.png" alt="Buscar" class="busca-icon"></button>
+        </div>
+      </div>
+      <div class="busca-mapa-right">
+        <div id="map"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h4>Recicla+</h4>
+      <p>Pontos de coleta perto de você e benefícios no seu bolso.</p>
+    </div>
+    <div class="footer-section">
+      <h4>Localização</h4>
+      <p><i class="fa fa-map-marker-alt"></i> Criciúma, Santa Catarina</p>
+    </div>
+    <div class="footer-section">
+      <h4>Contato</h4>
+      <a href="https://wa.me/5548988016101" target="_blank" class="whatsapp-link">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
+      <a href="https://instagram.com/reciclamais" target="_blank" class="instagram-link">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+    </div>
+    <div class="footer-section">
+      <h4>Links Rápidos</h4>
+      <a href="./index.html">Home</a>
+      <a href="./materiais.html">Materiais de Reciclagem</a>
+      <a href="./blog.html">Blog</a>
+      <a href="./regras.html">Regras da Recompensa</a>
+      <a href="./login.html">Login</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2024 Recicla+. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<!-- Botão hambúrguer do menu lateral -->
+<div id="menu-btn" class="menu-btn">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<!-- MENU LATERAL -->
+<nav id="side-menu" class="side-menu">
+  <button class="close-btn" id="close-menu">&times;</button>
+  <ul>
+    <li class="menu-item active">
+      <i class="fa fa-info-circle"></i>
+      <span>Regras da Recompensa</span>
+    </li>
+    <li class="menu-item">
+      <i class="fa fa-user-circle"></i>
+      <span>Login</span>
+    </li>
+  </ul>
+</nav>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
+
+

@@ -6,6 +6,8 @@ namespace ReciclaMais.Web.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
+    public DbSet<RecycleMaterial> RecycleMaterials { get; set; }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {

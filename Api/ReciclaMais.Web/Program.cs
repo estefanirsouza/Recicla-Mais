@@ -5,7 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ReciclaMais.Web.Data;
 using ReciclaMais.Web.Models;
+using ReciclaMais.Web.Repositories;
+using ReciclaMais.Web.Repositories.Interfaces;
 using ReciclaMais.Web.Services;
+using ReciclaMais.Web.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +67,12 @@ builder.Services.AddAuthentication(options =>
 
 // Register JWT Token Service
 builder.Services.AddScoped<JwtTokenService>();
+
+// Register Repositories
+builder.Services.AddScoped<IRecycleMaterialRepository, RecycleMaterialRepository>();
+
+// Register Services
+builder.Services.AddScoped<IRecycleMaterialService, RecycleMaterialService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

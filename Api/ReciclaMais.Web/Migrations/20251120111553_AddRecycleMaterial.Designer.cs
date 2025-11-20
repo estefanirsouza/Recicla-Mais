@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReciclaMais.Web.Data;
 
@@ -10,9 +11,11 @@ using ReciclaMais.Web.Data;
 namespace ReciclaMais.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251120111553_AddRecycleMaterial")]
+    partial class AddRecycleMaterial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -241,7 +244,7 @@ namespace ReciclaMais.Web.Migrations
 
                     b.HasKey("RecycleMaterialId");
 
-                    b.ToTable("RecycleMaterials", (string)null);
+                    b.ToTable("RecycleMaterials");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReciclaMais.Web.Data;
 
@@ -10,9 +11,11 @@ using ReciclaMais.Web.Data;
 namespace ReciclaMais.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251120124058_AddRecyclePoint")]
+    partial class AddRecyclePoint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -286,88 +289,6 @@ namespace ReciclaMais.Web.Migrations
                     b.HasKey("RecyclePointId");
 
                     b.ToTable("RecyclePoints");
-                });
-
-            modelBuilder.Entity("ReciclaMais.Web.Models.RecycleReward", b =>
-                {
-                    b.Property<int>("RecycleRewardId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("City")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DateInsert")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DateUpdate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("DefaultValidDays")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Neighborhood")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("State")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("UserPartnerId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("UserStoreId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ZipCode")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("RecycleRewardId");
-
-                    b.ToTable("RecycleRewards");
-                });
-
-            modelBuilder.Entity("ReciclaMais.Web.Models.UserReward", b =>
-                {
-                    b.Property<int>("UserRewardId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("DateInsert")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DateUpdate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("DateValid")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("RecycleRewardId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool?>("TokenUsed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("UserRewardId");
-
-                    b.ToTable("UserRewards");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

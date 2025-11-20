@@ -70,9 +70,13 @@ builder.Services.AddScoped<JwtTokenService>();
 
 // Register Repositories
 builder.Services.AddScoped<IRecycleMaterialRepository, RecycleMaterialRepository>();
+builder.Services.AddScoped<IRecyclePointRepository, RecyclePointRepository>();
+builder.Services.AddScoped<IRecycleRewardRepository, RecycleRewardRepository>();
 
 // Register Services
 builder.Services.AddScoped<IRecycleMaterialService, RecycleMaterialService>();
+builder.Services.AddScoped<IRecyclePointService, RecyclePointService>();
+builder.Services.AddScoped<IRecycleRewardService, RecycleRewardService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

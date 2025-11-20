@@ -67,10 +67,10 @@ public class RecycleMaterialController : ControllerBase
             var result = await _recycleMaterialService.DeleteAsync(id);
             if (!result)
             {
-                return NotFound();
+                return NotFound($"Material reciclável com ID {id} não encontrado.");
             }
 
-            return NoContent();
+            return Ok($"Material reciclável com ID {id} deletado com sucesso.");
         }
         catch(Exception ex)
         {

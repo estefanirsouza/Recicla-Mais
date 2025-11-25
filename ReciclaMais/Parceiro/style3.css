@@ -1,0 +1,621 @@
+/* ===== BASE ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f8f8f8;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ===== HEADER ===== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+nav a.active {
+  background: #c5e8b7;
+  padding: 6px 10px;
+  border-radius: 12px;
+}
+
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+  display: inline-block;
+  background: none;
+  border: none;
+  color: #0b5c33;
+  margin-left: 8px;
+}
+
+/* ===== MENU MOBILE – APARECE SOMENTE AO CLICAR ===== */
+.menu-mobile {
+  display: none; 
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  z-index: 999;
+  min-width: 220px;
+  margin-top: 10px;
+  padding: 0;
+}
+
+.menu-mobile.show {
+  display: flex;
+}
+
+.menu-mobile a {
+  display: block;
+  padding: 12px 16px;
+  color: #0b5c33;
+  text-decoration: none;
+  border-bottom: 1px solid #f1f1f1;
+  text-align: left;
+  transition: background 0.3s ease;
+}
+
+.menu-mobile a:last-child {
+  border-bottom: none;
+}
+
+.menu-mobile a.active {
+  background: #c5e8b7;
+  font-weight: 500;
+}
+
+.menu-mobile .mobile-home,
+.menu-mobile .mobile-materiais,
+.menu-mobile .mobile-blog {
+  display: block;
+}
+
+/* ===== HEADER FIXO ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 24px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.site-header .logo {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 110px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.site-header .logo:hover {
+  opacity: 0.8;
+}
+
+.site-header .logo img:first-of-type {
+  height: 110px;
+  width: auto;
+  margin-right: 0;
+}
+
+.site-header .logo .nome-logo {
+  height: 85px;
+  width: auto;
+  margin-left: -2px;
+  object-fit: contain;
+  align-self: center;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.main-nav .nav-link {
+  text-decoration: none;
+  color: #0b7a4f;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #fff;
+  transition: background 0.3s ease;
+}
+
+.main-nav .nav-link.active {
+  background: #c5e8b7;
+}
+
+/* ===== CARD CENTRAL ===== */
+main {
+  display: flex;
+  justify-content: center;
+  padding: 80px 20px;
+}
+
+.card {
+  background: #ffffff;
+  max-width: 800px;
+  padding: 70px 55px;
+  border-radius: 16px;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+  font-weight: 450;
+}
+
+.card h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  font-weight: 600;
+  color: #146c3d;
+}
+
+.card h2 span {
+  font-weight: 400;
+}
+
+.card p {
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 1;
+  color: #292929;
+}
+
+/* Container da área superior */
+.topo-acoes {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; /* botão no canto direito */
+  margin-top: 35px;
+  margin-right: 35px;
+}
+
+/* Botão Nova Recompensa */
+.btn-nova-recompensa {
+  display: inline-block;
+  background: #0b6c47;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.btn-nova-recompensa:hover {
+  background: #094f34;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.20);
+}
+
+
+/* ===== TÍTULO ===== */
+.titulo-pagina {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 35px;
+  font-weight: 700;
+  color: #0b6c47;
+}
+
+/* ===== BUSCA AJUSTADA ===== */
+.search-box {
+  width: 500px;                  
+    margin: 0 auto 50px auto;  /* mais espaço */
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 13px 48px 13px 18px;
+  border-radius: 50px;
+  border: none;
+  background: #ffffff;
+  font-size: 16px;
+  color: #444;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.10);
+}
+
+/* remove a linha preta ao clicar */
+.search-box input:focus {
+  outline: none;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.10);
+}
+
+.search-box input::placeholder {
+  color: #999;
+}
+
+/* ícone no centro direito perfeitamente */
+.busca-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  opacity: 0.70;
+  pointer-events: none;
+}
+
+/* ocultar ícone do FontAwesome */
+.search-box .fa-search {
+  display: none !important;
+}
+
+
+/* ===== TABELA ===== */
+.tabela-container {
+  text-align: center;
+  font-size: 25px;
+  color: #0b6c47;
+  padding-top: 5px;  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.tabela-wrapper {
+  width: 95%;
+  font-size: 18px;
+  max-width: 1100px;
+  margin: 0 auto 40px;
+  overflow-x: auto;
+  display: block;
+}
+
+.tabela-recompensas {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+
+.tabela-recompensas thead th {
+  background: #0b6c47;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.tabela-recompensas tbody tr:nth-child(odd) {
+  background: #f4f7f4;
+}
+
+.tabela-recompensas td {
+  padding: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.status.disponivel {
+  color: #0f7f39;
+  font-weight: bold;
+}
+
+.acoes i {
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 18px;
+  transition: 0.2s;
+}
+
+.icone-editar {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+
+/* ===== PAGINAÇÃO ===== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0 8px 0;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  border: none;
+  background: #0f5f39;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pagination button.disabled {
+  background: #b8b8b8;
+  cursor: not-allowed;
+}
+
+.pagination button.active {
+  background: #0a3d26;
+  font-weight: bold;
+}
+
+/* ===== CARD ESTILO DO PRINT ===== */
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.card {
+  width: 80%;
+  max-width: 900px;
+  background: #f2f2f2; /* CINZA BEM CLARO DO PRINT */
+  padding: 40px 50px;
+  border-radius: 20px; /* CANTO BEM ARREDONDADO */
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+/* ===== TÍTULO E SUBTÍTULO ===== */
+.card h2 {
+  text-align: left;
+  font-size: 32px;
+  color: #0b6c47; /* VERDE DO PRINT */
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.card .sub {
+  text-align:left;
+  font-size: 17px;
+  color: #000;
+  margin-bottom: 35px;
+  line-height: 1.4;
+}
+
+.icon-btn.back img {
+  width: 30px;   
+  height: 30px; 
+} 
+
+/* ===== GRID DO FORM ===== */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+}
+
+/* Campo que ocupa toda a linha */
+.form-group.full {
+  grid-column: span 2;
+}
+
+/* ===== LABELS ===== */
+label {
+  font-size: 15px;
+  color: #000;
+  margin-bottom: 6px;
+}
+
+/* ===== INPUTS SUAVES ===== */
+input {
+  width: 100%;
+  padding: 10px;
+  background: #f8f8f8;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #000;
+}
+
+/* ===== BOTÕES ===== */
+.btn {
+  grid-column: span 2;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 100;
+  cursor: pointer;
+  width: 380px;      
+  display: block;     
+  margin: 10px auto; 
+}
+
+.save {
+  background: #0b6c47;
+  color: white;
+  margin-top: 10px;
+}
+
+.save:hover {
+  background: #0c4d2f;
+}
+
+.delete {
+  background: #dcdcdc;
+  color: #333;
+  margin-top: 2px;
+}
+
+.delete:hover {
+  background: #c5c5c5;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+  .card {
+    width: 95%;
+    padding: 30px 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    grid-column: span 1;
+  }
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background: #0a633a;
+  color: white;
+  padding: 40px 20px 20px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.footer-section h4 {
+  color: #c5e8b7;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.footer-section a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  margin: 8px 0;
+  transition: color 0.3s ease;
+  font-size: 0.95em;
+}
+
+.footer-section a:hover {
+  color: #c5e8b7;
+}
+
+.whatsapp-link, .instagram-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #4caf50;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+  color: #fff;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.whatsapp-link:hover, .instagram-link:hover {
+  background: #45a049;
+  color: #fff;
+}
+
+.footer-section i.fa-map-marker-alt {
+  margin-right: 8px;
+  color: #c5e8b7;
+  flex-shrink: 0;
+}
+
+.footer-section p {
+  color: #fff;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95em;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 20px;
+  text-align: center;
+  color: #c5e8b7;
+  font-size: 0.9em;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 1024px) {
+  .site-header {
+    padding: 10px 20px;
+  }
+  
+  .site-header .logo img:first-of-type {
+    height: 80px;
+  }
+  
+  .site-header .logo .nome-logo {
+    height: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .main-nav {
+    display: none;
+  }
+
+  .menu-mobile {
+    right: 0;
+    top: 70px;
+    min-width: 100%;
+  }
+}

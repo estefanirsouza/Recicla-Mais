@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conta - Recicla+</title>
+   <!-- favicon / css -->
+  <link rel="icon" type="image/png" href="../Imagens/icone_pesquisa.png" />
+  <link rel="stylesheet" href="conta_loja.css" />
+</head>
+<body>
+  <div class="page-bg">
+    <div class="card">
+      <header class="card-header">
+        <a href="./home_loja.html" class="icon-btn back" aria-label="Voltar">
+          <img src="../Imagens/setavolta.png" alt="Recicla+" class="logo" />
+        </a>
+
+        <div class="logo-nome">
+          <!-- use a imagem que você enviou -->
+          <img src="../Imagens/nome.png" alt="Recicla+" class="logo" />
+        </div>
+
+         <div class="logo-localizacao">
+          <!-- use a imagem que você enviou -->
+          <img src="../Imagens/logo.png" alt="Recicla+" class="logo" />
+        </div>
+      </header>
+
+      <main class="card-body">
+        <h2>Conta</h2>
+        <p class="subtitle">
+          Ao entrar na sua conta, você poderá visualizar e atualizar suas informações pessoais a qualquer momento.
+        </p>
+
+        <form id="accountForm" class="form">
+          <label class="visually-hidden" for="nome">Nome</label>
+          <input id="nome" name="nome" type="text" placeholder="Nome Completo" value="Gabrielle Coral"/>
+
+          <label class="visually-hidden" for="email">E-mail</label>
+          <input id="email" name="email" type="email" placeholder="E-mail" value="gabrielle.coral@hotmail.com"/>
+
+          <label class="visually-hidden" for="usuario">Usuário</label>
+          <input id="usuario" name="usuario" type="text" placeholder="Usuário" value="gabrielle.coral"/>
+
+          <div class="password-row">
+            <label class="visually-hidden" for="senha">Senha</label>
+            <input id="senha" name="senha" type="password" placeholder="Senha" value="secret"/>
+            <button type="button" id="togglePwd" class="pwd-toggle" aria-label="Mostrar senha">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path d="M12 5c5 0 9 4.5 9 7s-4 7-9 7-9-4.5-9-7 4-7 9-7zm0 2a5 5 0 1 0 0 10A5 5 0 0 0 12 7z" fill="#333"/>
+                <path d="M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z" fill="#333"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="btn-wrap">
+            <button type="submit" class="save-btn">Salvar</button>
+          </div>
+        </form>
+      </main>
+    </div>
+  </div>
+
+  <script src="conta_loja.js"></script>
+</body>
+</html>

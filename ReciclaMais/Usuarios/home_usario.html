@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Recicla+</title>
+
+  <!-- favicon / css -->
+  <link rel="icon" type="image/png" href="../Imagens/icone_pesquisa.png" />
+  <link rel="stylesheet" href="style2.css" />
+
+  <!-- fontawesome (icones) -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- (imagem de referência enviada por você; caminho local incluído) -->
+<img src="/mnt/data/6b80efff-a5f2-4cf6-a47b-cf58ceb36d7d.png" alt="preview" class="mock-preview" style="display:none;">
+
+<!-- HEADER (igual ao seu index) -->
+<header class="site-header">
+  <a href="../index.html" class="logo">
+    <img src="../Imagens/logo.png" alt="Recicla+" />
+    <img src="../Imagens/nome.png" alt="Recicla+" class="nome-logo" />
+  </a>
+
+  <nav class="main-nav">
+    <button id="hamburger" class="hamburger" aria-label="Abrir menu">☰</button>
+
+    <!-- MENU MOBILE — agora único -->
+    <div id="menu-mobile" class="menu-mobile">
+      <a href="./home_usario.html" class="mobile-link">Home</a>
+      <a href="./recompensas.html" class="mobile-link">Recompensas</a>
+      <a href="./conta.html" class="mobile-link">Conta</a>
+      <a href="../Publico/login.html" class="mobile-link">Sair</a>
+    </div>
+  </nav>
+</header>
+
+<!-- MAIN - Card central com 5 caixinhas -->
+<main class="welcome-container">
+  <div class="welcome-card">
+    <h2 class="welcome-title">Bem-Vindo(a) <strong>Gabrielle Coral</strong></h2>
+
+    <div class="welcome-text">
+      <p>Agora você pode acompanhar suas reciclagens, visualizar recompensas disponíveis e resgatar benefícios oferecidos pelos parceiros.</p>
+      <p>Após a validação do código, a recompensa ficará registrada, válida e disponível no seu histórico de recompensas.</p>
+    </div>
+
+    <div class="code-row" aria-label="Entrada de código">
+      <input class="code-box" type="text" maxlength="1" inputmode="verbatim" autocomplete="off" />
+      <input class="code-box" type="text" maxlength="1" inputmode="verbatim" autocomplete="off" />
+      <input class="code-box" type="text" maxlength="1" inputmode="verbatim" autocomplete="off" />
+      <input class="code-box" type="text" maxlength="1" inputmode="verbatim" autocomplete="off" />
+      <input class="code-box" type="text" maxlength="1" inputmode="verbatim" autocomplete="off" />
+    </div>
+
+    <div class="actions">
+      <button id="btnGenerate" class="btn-secondary">Gere a sua Recompensa</button>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER IGUAL AO INDEX -->
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h4>Recicla+</h4>
+      <p>Pontos de coleta perto de você e benefícios no seu bolso.</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Localização</h4>
+      <p><i class="fa fa-map-marker-alt"></i> Criciúma, Santa Catarina</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Contato</h4>
+      <a href="https://wa.me/5548988016101" target="_blank" class="whatsapp-link">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
+      <a href="#" class="instagram-link">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+    </div>
+
+    <div class="footer-section">
+      <h4>Links Rápidos</h4>
+      <a href="./home_usario.html">Home</a>
+      <a href="./recompensas.html" class="mobile-link">Recompensas</a>
+        <a href="./conta.html" class="mobile-link">Conta</a>
+      <a href="../Publico/login.html">Sair</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 Recicla+. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="script2.js"></script>
+</body>
+</html>

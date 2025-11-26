@@ -1,0 +1,1473 @@
+{
+	"info": {
+		"_postman_id": "cf0ee1c1-7e56-4e4a-ad80-a0d88f784c55",
+		"name": "ReclicaMais",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10315695",
+		"_collection_link": "https://zomerteam.postman.co/workspace/dcda4679-cb87-4f90-8cd5-a7a1fbca6c53/collection/10315695-cf0ee1c1-7e56-4e4a-ad80-a0d88f784c55?action=share&source=collection_link&creator=10315695"
+	},
+	"item": [
+		{
+			"name": "Exemplos Teste Perfil",
+			"item": [
+				{
+					"name": "Example Endpoint Public",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}example/public",
+							"host": [
+								"{{url}}example"
+							],
+							"path": [
+								"public"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Example Endpoint Authenticated",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImNhYzk1NDg5LWE3ZWMtNGQzZS1hYTE1LWY4MDcxZTU1MmNkMyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6InJlY2ljbGFtYWlzQGFkbWluLm5ldCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJyZWNpY2xhbWFpcyIsIk5hbWUiOiJSZWNsaWNhIiwiU3VybmFtZSI6Ik1haXMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTc2MzI5NzY3MCwiaXNzIjoiUmVjaWNsYU1haXMiLCJhdWQiOiJSZWNpY2xhTWFpc1VzZXJzIn0.syVYEVfIgO6OL6dmmHuOncTTWOtA0a7c_mFOYdLkiMg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}example/authenticated",
+							"host": [
+								"{{url}}example"
+							],
+							"path": [
+								"authenticated"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Example Endpoint Admin Only",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}example/admin-only",
+							"host": [
+								"{{url}}example"
+							],
+							"path": [
+								"admin-only"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Example Endpoint Partner and Store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}example/partner-or-store",
+							"host": [
+								"{{url}}example"
+							],
+							"path": [
+								"partner-or-store"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Material Reciclavel",
+			"item": [
+				{
+					"name": "Create Recycle Material",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Metal\",\r\n    \"Description\": \"Duro\",\r\n    \"IconImageBase64\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}recyclematerial/create",
+							"host": [
+								"{{url}}recyclematerial"
+							],
+							"path": [
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Recycle Material",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Metal\",\r\n    \"Icon\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}recyclematerial/getall",
+							"host": [
+								"{{url}}recyclematerial"
+							],
+							"path": [
+								"getall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recycle Material",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Metaaal\",\r\n    \"Description\": \"\",\r\n    \"IconImageBase64\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}recyclematerial/update/5",
+							"host": [
+								"{{url}}recyclematerial"
+							],
+							"path": [
+								"update",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recycle Material",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}recyclematerial/delete/6",
+							"host": [
+								"{{url}}recyclematerial"
+							],
+							"path": [
+								"delete",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id Recycle Material",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}recyclematerial/get/3",
+							"host": [
+								"{{url}}recyclematerial"
+							],
+							"path": [
+								"get",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Name Recycle Material",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}recyclematerial/getbyname?Name=plast",
+							"host": [
+								"{{url}}recyclematerial"
+							],
+							"path": [
+								"getbyname"
+							],
+							"query": [
+								{
+									"key": "Name",
+									"value": "plast"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuário",
+			"item": [
+				{
+					"name": "Buscar Usuário por Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"reciclamais@admin.net\",\r\n    \"Password\": \"+N'J6IuhhLrH\"\r\n    //\"Email\": \"gzomer14@gmail.com\",\r\n    //\"Password\": \"Batatinha1#\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/get/:UserId",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"get",
+								":UserId"
+							],
+							"variable": [
+								{
+									"key": "UserId",
+									"value": "e8f40159-d4b1-41b0-94a0-e72131774284"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Todos Usuários",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"reciclamais@admin.net\",\r\n    \"Password\": \"+N'J6IuhhLrH\"\r\n    //\"Email\": \"gzomer14@gmail.com\",\r\n    //\"Password\": \"Batatinha1#\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/getall",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"getall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar Perfil ao Usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/addrole/:UserId?Role=Admin",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"addrole",
+								":UserId"
+							],
+							"query": [
+								{
+									"key": "Role",
+									"value": "Admin"
+								}
+							],
+							"variable": [
+								{
+									"key": "UserId",
+									"value": "b806aa81-04ae-4424-be27-1a75951d8d66"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Perfil de Usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/removerole/:UserId?Role=Admin",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"removerole",
+								":UserId"
+							],
+							"query": [
+								{
+									"key": "Role",
+									"value": "Admin"
+								}
+							],
+							"variable": [
+								{
+									"key": "UserId",
+									"value": "b806aa81-04ae-4424-be27-1a75951d8d66"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/delete/:UserId",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"delete",
+								":UserId"
+							],
+							"variable": [
+								{
+									"key": "UserId",
+									"value": "b806aa81-04ae-4424-be27-1a75951d8d66"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ponto de Reciclagem",
+			"item": [
+				{
+					"name": "Create Recycle Point",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"UserId\": \"e8f40159-d4b1-41b0-94a0-e72131774284\",\r\n    \"Name\": \"Ponto 2\",\r\n    \"Address\": \"Rua Almeida Junior\",\r\n    \"Neighborhood\": \"Bairro Jardim Maristela\",\r\n    \"City\": \"Içara\",\r\n    \"State\": \"Florianópolis\",\r\n    \"ZipCode\": \"12550-720\",\r\n    \"PhoneNumber\": \"(51)99875-4685\",\r\n    \"WorkingHours\": \"Seg a Sex, 10:00 - 20:00 \"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}recyclepoint/create",
+							"host": [
+								"{{url}}recyclepoint"
+							],
+							"path": [
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Recycle Point",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Metal\",\r\n    \"Icon\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}recyclepoint/getall",
+							"host": [
+								"{{url}}recyclepoint"
+							],
+							"path": [
+								"getall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recycle Point",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"\",\r\n    \"Address\": \"Travessa Ouro Preto\",\r\n    \"Neighborhood\": \"\",\r\n    \"City\": \"\",\r\n    \"State\": \"\",\r\n    \"ZipCode\": \"\",\r\n    \"PhoneNumber\": \"\",\r\n    \"WorkingHours\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}recyclepoint/update/1",
+							"host": [
+								"{{url}}recyclepoint"
+							],
+							"path": [
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recycle Point",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}recyclepoint/delete/1",
+							"host": [
+								"{{url}}recyclepoint"
+							],
+							"path": [
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id Recycle Point",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}recyclepoint/get/2",
+							"host": [
+								"{{url}}recyclepoint"
+							],
+							"path": [
+								"get",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By UserId Recycle Point",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}recyclepoint/user/2",
+							"host": [
+								"{{url}}recyclepoint"
+							],
+							"path": [
+								"user",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Name Recycle Point",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Name\": \"Pont\",\n    \"City\": \"\",\n    \"State\": \"\",\n    \"Address\": \"\",\n    \"Neighborhood\": \"\",\n    \"ZipCode\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}recyclepoint/getbydetails",
+							"host": [
+								"{{url}}recyclepoint"
+							],
+							"path": [
+								"getbydetails"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recompensas",
+			"item": [
+				{
+					"name": "Create Recycle Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"UserPartnerId\": \"b806aa81-04ae-4424-be27-1a75951d8d66\",\r\n    \"UserStoreId\": \"7ac52d2f-2259-4061-afd3-2d7298825c9e\",    \r\n    \"Name\": \"Vale Peixe\",\r\n    \"Description\": \"Ganha 10% de desconto em peixe\",\r\n    \"Address\": \"Rua Qualquer 1\",\r\n    \"Neighborhood\": \"Bairro Qualquer 1\",\r\n    \"City\": \"Criciúma\",\r\n    \"State\": \"Santa Catarina\",\r\n    \"ZipCode\": \"99999-999\",\r\n    \"PhoneNumber\": \"(99)99999-9999\",\r\n    \"DefaultValidDays\": 90\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}recyclereward/create",
+							"host": [
+								"{{url}}recyclereward"
+							],
+							"path": [
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Recycle Reward",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Metal\",\r\n    \"Icon\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}recyclereward/getall",
+							"host": [
+								"{{url}}recyclereward"
+							],
+							"path": [
+								"getall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recycle Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"\",\r\n    \"Description\": \"Ganha 15% de desconto em botijão de gássss\",\r\n    \"Address\": \"\",\r\n    \"Neighborhood\": \"\",\r\n    \"City\": \"\",\r\n    \"State\": \"\",\r\n    \"ZipCode\": \"\",\r\n    \"PhoneNumber\": \"\",\r\n    \"DefaultValidDays\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}recyclereward/update/5",
+							"host": [
+								"{{url}}recyclereward"
+							],
+							"path": [
+								"update",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recycle Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}recyclereward/delete/1",
+							"host": [
+								"{{url}}recyclereward"
+							],
+							"path": [
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id Recycle Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}recyclereward/get/5",
+							"host": [
+								"{{url}}recyclereward"
+							],
+							"path": [
+								"get",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By StoreId Recycle Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}recyclereward/store/4961D122-BD1D-4139-B565-810FAEE7341C",
+							"host": [
+								"{{url}}recyclereward"
+							],
+							"path": [
+								"store",
+								"4961D122-BD1D-4139-B565-810FAEE7341C"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By PartnerId Recycle Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}recyclereward/partner/B806AA81-04AE-4424-BE27-1A75951D8D66",
+							"host": [
+								"{{url}}recyclereward"
+							],
+							"path": [
+								"partner",
+								"B806AA81-04AE-4424-BE27-1A75951D8D66"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Name Recycle Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}recyclereward/getbyname?Name=Gás&StoreId=4961D122-BD1D-4139-B565-810FAEE7341C",
+							"host": [
+								"{{url}}recyclereward"
+							],
+							"path": [
+								"getbyname"
+							],
+							"query": [
+								{
+									"key": "Name",
+									"value": "Gás"
+								},
+								{
+									"key": "StoreId",
+									"value": "4961D122-BD1D-4139-B565-810FAEE7341C"
+								},
+								{
+									"key": "PartnerId",
+									"value": "205DD8D2-8344-4AD4-8FF5-A1ABE0AADA89",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recompensas Usuário",
+			"item": [
+				{
+					"name": "Generate User Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"RecycleRewardId\": 8,\r\n    \"UserId\": \"4961d122-bd1d-4139-b565-810faee7341c\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}userreward/generate",
+							"host": [
+								"{{url}}userreward"
+							],
+							"path": [
+								"generate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate User Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Token\": \"DYZ6S\",\r\n    \"StoreId\": \"7ac52d2f-2259-4061-afd3-2d7298825c9e\",\r\n    \"PartnerId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}userreward/validatetoken",
+							"host": [
+								"{{url}}userreward"
+							],
+							"path": [
+								"validatetoken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List User Reward",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Metal\",\r\n    \"Icon\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}userreward/getall",
+							"host": [
+								"{{url}}userreward"
+							],
+							"path": [
+								"getall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Token\": \"\",\r\n    \"DateValid\": null,\r\n    \"TokenUsed\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}userreward/update/1",
+							"host": [
+								"{{url}}userreward"
+							],
+							"path": [
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}userreward/delete/1",
+							"host": [
+								"{{url}}userreward"
+							],
+							"path": [
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id User Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}userreward/get/2",
+							"host": [
+								"{{url}}userreward"
+							],
+							"path": [
+								"get",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By StoreId User Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}userreward/store/7ac52d2f-2259-4061-afd3-2d7298825c9e",
+							"host": [
+								"{{url}}userreward"
+							],
+							"path": [
+								"store",
+								"7ac52d2f-2259-4061-afd3-2d7298825c9e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By UserId User Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}userreward/user/4961D122-BD1D-4139-B565-810FAEE7341C",
+							"host": [
+								"{{url}}userreward"
+							],
+							"path": [
+								"user",
+								"4961D122-BD1D-4139-B565-810FAEE7341C"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By PartnerId User Reward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}userreward/partner/205dd8d2-8344-4ad4-8ff5-a1abe0aada89",
+							"host": [
+								"{{url}}userreward"
+							],
+							"path": [
+								"partner",
+								"205dd8d2-8344-4ad4-8ff5-a1abe0aada89"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Logar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Extract 'token' from response and set as collection variable if present\r",
+									"pm.test(\"Extract and set token as collection variable\", function () {\r",
+									"    if (pm.response.code === 200) {\r",
+									"        let jsonData;\r",
+									"        try {\r",
+									"            jsonData = pm.response.json();\r",
+									"        } catch (e) {\r",
+									"            // Not a JSON response\r",
+									"            return;\r",
+									"        }\r",
+									"        if (jsonData && jsonData.token) {\r",
+									"            pm.collectionVariables.set(\"token\", jsonData.token);\r",
+									"            pm.expect(jsonData.token, \"Token should be a non-empty string\").to.be.a(\"string\").and.not.empty;\r",
+									"        }\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"reciclamais@admin.net\",\r\n    \"Password\": \"+N'J6IuhhLrH\"\r\n    //\"Email\": \"gzomer14@gmail.com\",\r\n    //\"Password\": \"Batatinha1#\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}login/signin",
+							"host": [
+								"{{url}}login"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuário",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\": \"parceiro2@teste.com\",\r\n    \"Password\": \"Ab123456#\",\r\n    \"FirstName\": \"Parceiro 2\",\r\n    \"LastName\": \"\",\r\n    \"UserName\": \"parceiro2\",\r\n    \"Role\": \"Partner\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}login/registeruser",
+							"host": [
+								"{{url}}login"
+							],
+							"path": [
+								"registeruser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Todos Perfis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}login/role/getall",
+							"host": [
+								"{{url}}login"
+							],
+							"path": [
+								"role",
+								"getall"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "url",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

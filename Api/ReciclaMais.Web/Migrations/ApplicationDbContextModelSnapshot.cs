@@ -241,7 +241,7 @@ namespace ReciclaMais.Web.Migrations
 
                     b.HasKey("RecycleMaterialId");
 
-                    b.ToTable("RecycleMaterials");
+                    b.ToTable("RecycleMaterials", (string)null);
                 });
 
             modelBuilder.Entity("ReciclaMais.Web.Models.RecyclePoint", b =>
@@ -285,7 +285,7 @@ namespace ReciclaMais.Web.Migrations
 
                     b.HasKey("RecyclePointId");
 
-                    b.ToTable("RecyclePoints");
+                    b.ToTable("RecyclePoints", (string)null);
                 });
 
             modelBuilder.Entity("ReciclaMais.Web.Models.RecycleReward", b =>
@@ -335,7 +335,7 @@ namespace ReciclaMais.Web.Migrations
 
                     b.HasKey("RecycleRewardId");
 
-                    b.ToTable("RecycleRewards");
+                    b.ToTable("RecycleRewards", (string)null);
                 });
 
             modelBuilder.Entity("ReciclaMais.Web.Models.UserReward", b =>
@@ -367,7 +367,7 @@ namespace ReciclaMais.Web.Migrations
 
                     b.HasKey("UserRewardId");
 
-                    b.ToTable("UserRewards");
+                    b.ToTable("UserRewards", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

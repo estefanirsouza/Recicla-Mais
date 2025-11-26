@@ -72,11 +72,16 @@ builder.Services.AddScoped<JwtTokenService>();
 builder.Services.AddScoped<IRecycleMaterialRepository, RecycleMaterialRepository>();
 builder.Services.AddScoped<IRecyclePointRepository, RecyclePointRepository>();
 builder.Services.AddScoped<IRecycleRewardRepository, RecycleRewardRepository>();
+builder.Services.AddScoped<IUserRewardRepository, UserRewardRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Register Services
 builder.Services.AddScoped<IRecycleMaterialService, RecycleMaterialService>();
 builder.Services.AddScoped<IRecyclePointService, RecyclePointService>();
 builder.Services.AddScoped<IRecycleRewardService, RecycleRewardService>();
+builder.Services.AddScoped<IUserRewardService, UserRewardService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -95,6 +100,37 @@ using (var scope = app.Services.CreateScope())
         if (!await roleManager.RoleExistsAsync(role))
         {
             await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
+
+// Create Default Admin User
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var adminEmail = builder.Configuration["AdminUser:Email"];
+    var adminName = builder.Configuration["AdminUser:Name"];
+    var adminUserName = builder.Configuration["AdminUser:UserName"];
+    var adminPassword = builder.Configuration["AdminUser:Password"];
+
+    if(!string.IsNullOrWhiteSpace(adminEmail) && !string.IsNullOrWhiteSpace(adminPassword)
+        && !string.IsNullOrWhiteSpace(adminName) && !string.IsNullOrWhiteSpace(adminUserName))
+    {
+        var adminUser = await userManager.FindByEmailAsync(adminEmail);
+        if (adminUser == null)
+        {
+            adminUser = new ApplicationUser
+            {
+                UserName = adminUserName,
+                Email = adminEmail,
+                Name = adminName
+            };
+
+            var result = await userManager.CreateAsync(adminUser, adminPassword);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(adminUser, "Admin");
+            }
         }
     }
 }

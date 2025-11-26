@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ReciclaMais.Web.Models;
 using ReciclaMais.Web.Models.DTOs;
 using ReciclaMais.Web.Services;
@@ -63,6 +65,8 @@ public class LoginController : ControllerBase
             Email = user.Email ?? string.Empty,
             Name = user.Name,
             Surname = user.Surname,
+            Id = user.Id,
+            UserName = user.UserName,
             Roles = roles
         });
     }
@@ -98,8 +102,17 @@ public class LoginController : ControllerBase
             Email = user.Email ?? string.Empty,
             Name = user.Name,
             Surname = user.Surname,
+            Id = user.Id,
+            UserName = user.UserName,
             Roles = roles
         });
+    }
+
+    [HttpGet("role/getall")]
+    public async Task<IActionResult> GetAllRoles()
+    {
+        var roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+        return Ok(roles);
     }
 }
 

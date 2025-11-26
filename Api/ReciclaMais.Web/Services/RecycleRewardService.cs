@@ -15,7 +15,7 @@ public class RecycleRewardService : IRecycleRewardService
 
     public async Task<RecycleReward> CreateAsync(RecycleReward entity)
     {
-        entity.DateInsert = DateTime.UtcNow;
+        entity.DateInsert = DateTime.UtcNow.AddHours(-3);
         return await _recycleRewardRepository.CreateAsync(entity);
     }
 
@@ -46,7 +46,7 @@ public class RecycleRewardService : IRecycleRewardService
 
     public async Task<RecycleReward?> UpdateAsync(int id, RecycleReward entity)
     {
-        entity.DateUpdate = DateTime.UtcNow;
+        entity.DateUpdate = DateTime.UtcNow.AddHours(-3);
         return await _recycleRewardRepository.UpdateAsync(id, entity);
     }
 

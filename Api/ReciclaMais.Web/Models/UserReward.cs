@@ -13,4 +13,20 @@ public class UserReward
     public bool? TokenUsed { get; set; }
     public DateTime? DateInsert {get; set;}
     public DateTime? DateUpdate {get; set;}
+
+    public string Validate()
+    {
+        string message = string.Empty;
+
+        if (RecycleRewardId <= 0)
+        {
+            message += $"{Environment.NewLine}- Obrigatório informar o ID do prêmio.";
+        }
+        if(UserId is null || UserId == Guid.Empty)
+        {
+            message += $"{Environment.NewLine}- Obrigatório informar o ID do usuário.";
+        }
+
+        return message;
+    }
 }

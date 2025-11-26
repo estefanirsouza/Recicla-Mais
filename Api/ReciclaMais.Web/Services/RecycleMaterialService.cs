@@ -19,7 +19,7 @@ public class RecycleMaterialService : IRecycleMaterialService
 
     public async Task<RecycleMaterial> CreateAsync(RecycleMaterial entity)
     {
-        entity.DateInsert = DateTime.UtcNow;
+        entity.DateInsert = DateTime.UtcNow.AddHours(-3);
         if (!string.IsNullOrEmpty(entity.IconImageBase64))
         {
             entity.IconImage = Convert.FromBase64String(entity.IconImageBase64);
@@ -50,7 +50,7 @@ public class RecycleMaterialService : IRecycleMaterialService
 
     public async Task<RecycleMaterial?> UpdateAsync(int id, RecycleMaterial entity)
     {
-        entity.DateUpdate = DateTime.UtcNow;
+        entity.DateUpdate = DateTime.UtcNow.AddHours(-3);
 
         return await _recycleMaterialRepository.UpdateAsync(id, entity);
     }

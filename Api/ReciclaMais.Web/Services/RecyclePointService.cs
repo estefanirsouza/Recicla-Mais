@@ -15,7 +15,7 @@ public class RecyclePointService : IRecyclePointService
 
     public async Task<RecyclePoint> CreateAsync(RecyclePoint entity)
     {
-        entity.DateInsert = DateTime.UtcNow;
+        entity.DateInsert = DateTime.UtcNow.AddHours(-3);
         return await _recyclePointRepository.CreateAsync(entity);
     }
 
@@ -46,7 +46,7 @@ public class RecyclePointService : IRecyclePointService
 
     public async Task<RecyclePoint?> UpdateAsync(int id, RecyclePoint entity)
     {
-        entity.DateUpdate = DateTime.UtcNow;
+        entity.DateUpdate = DateTime.UtcNow.AddHours(-3);
         return await _recyclePointRepository.UpdateAsync(id, entity);
     }
 }

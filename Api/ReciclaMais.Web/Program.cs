@@ -83,6 +83,17 @@ builder.Services.AddScoped<IUserRewardService, UserRewardService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 
+// Configure CORS - Allow all for development
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -140,6 +151,17 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+// Enable CORS - must be before UseAuthorization
+app.UseCors("AllowAll");
+
+// For Production, the example below
+// policy.WithOrigins("https://yourfrontend.com")
+//       .AllowAnyMethod()
+//       .AllowAnyHeader();
+// ```> policy.WithOrigins("https://yourfrontend.com")
+//       .AllowAnyMethod()
+//       .AllowAnyHeader();
 
 app.UseHttpsRedirection();
 

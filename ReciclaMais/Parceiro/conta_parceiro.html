@@ -1,101 +1,144 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Conta - Recicla+</title>
-   <!-- favicon / css -->
-  <link rel="icon" type="image/png" href="../Imagens/icone_pesquisa.png" />
-  <link rel="stylesheet" href="conta_parceiro.css" />
-</head>
-<body>
-  <div class="page-bg">
-    <div class="card">
-      <header class="card-header">
-        <a href="./home_parceiro.html" class="icon-btn back" aria-label="Voltar">
-          <img src="../Imagens/setavolta.png" alt="Recicla+" class="logo" />
-        </a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conta - Recicla+</title>
+    <!-- favicon / css -->
+    <link rel="icon" type="image/png" href="../Imagens/icone_pesquisa.png" />
+    <link rel="stylesheet" href="conta_parceiro.css" />
+  </head>
+  <body>
+    <div class="page-bg">
+      <div class="card">
+        <header class="card-header">
+          <a
+            href="./home_parceiro.html"
+            class="icon-btn back"
+            aria-label="Voltar"
+          >
+            <img src="../Imagens/setavolta.png" alt="Recicla+" class="logo" />
+          </a>
 
-        <div class="logo-nome">
-          <!-- use a imagem que você enviou -->
-          <img src="../Imagens/nome.png" alt="Recicla+" class="logo" />
-        </div>
+          <div class="logo-nome">
+            <!-- use a imagem que você enviou -->
+            <img src="../Imagens/nome.png" alt="Recicla+" class="logo" />
+          </div>
 
-         <div class="logo-localizacao">
-          <!-- use a imagem que você enviou -->
-          <img src="../Imagens/logo.png" alt="Recicla+" class="logo" />
-        </div>
-      </header>
+          <div class="logo-localizacao">
+            <!-- use a imagem que você enviou -->
+            <img src="../Imagens/logo.png" alt="Recicla+" class="logo" />
+          </div>
+        </header>
 
-      <main class="card-body">
-        <h2>Conta</h2>
-        <p class="subtitle">
-          Ao entrar na sua conta, você poderá visualizar e atualizar suas informações pessoais a qualquer momento.
-        </p>
+        <main class="card-body">
+          <h2>Conta</h2>
+          <p class="subtitle">
+            Ao entrar na sua conta, você poderá visualizar e atualizar suas
+            informações pessoais a qualquer momento.
+          </p>
 
-        <form id="accountForm" class="form">
+          <form id="accountForm" class="form">
+            <!-- NOME DA EMPRESA -->
+            <label class="visually-hidden" for="empresa">Empresa</label>
+            <input
+              id="empresa"
+              name="empresa"
+              type="text"
+              placeholder="Nome da Empresa"
+              value="EcoCenter Reciclagem"
+            />
 
-  <!-- NOME DA EMPRESA -->
-  <label class="visually-hidden" for="empresa">Empresa</label>
-  <input id="empresa" name="empresa" type="text"
-         placeholder="Nome da Empresa"
-         value="EcoCenter Reciclagem"/>
+            <!-- CNPJ -->
+            <label class="visually-hidden" for="cnpj">CNPJ</label>
+            <input
+              id="cnpj"
+              name="cnpj"
+              type="text"
+              placeholder="CNPJ"
+              value="145.859.487-87"
+            />
 
-  <!-- CNPJ -->
-  <label class="visually-hidden" for="cnpj">CNPJ</label>
-  <input id="cnpj" name="cnpj" type="text"
-         placeholder="CNPJ"
-         value="145.859.487-87"/>
+            <!-- INSCRIÇÃO ESTADUAL -->
+            <label class="visually-hidden" for="inscricao"
+              >Inscrição Estadual</label
+            >
+            <input
+              id="inscricao"
+              name="inscricao"
+              type="text"
+              placeholder="Inscrição Estadual"
+              value="0000000"
+            />
 
-  <!-- INSCRIÇÃO ESTADUAL -->
-  <label class="visually-hidden" for="inscricao">Inscrição Estadual</label>
-  <input id="inscricao" name="inscricao" type="text"
-         placeholder="Inscrição Estadual"
-         value="0000000"/>
+            <!-- EMAIL -->
+            <label class="visually-hidden" for="email">E-mail</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="E-mail"
+              value="gabrielle.coral@hotmail.com"
+            />
 
-  <!-- EMAIL -->
-  <label class="visually-hidden" for="email">E-mail</label>
-  <input id="email" name="email" type="email"
-         placeholder="E-mail"
-         value="gabrielle.coral@hotmail.com"/>
+            <!-- TELEFONE -->
+            <label class="visually-hidden" for="telefone">Telefone</label>
+            <input
+              id="telefone"
+              name="telefone"
+              type="text"
+              placeholder="Telefone"
+              value="(48)98578-8957"
+            />
 
-  <!-- TELEFONE -->
-  <label class="visually-hidden" for="telefone">Telefone</label>
-  <input id="telefone" name="telefone" type="text"
-         placeholder="Telefone"
-         value="(48)98578-8957"/>
+            <!-- HORÁRIO -->
+            <label class="visually-hidden" for="horario">Horário</label>
+            <input
+              id="horario"
+              name="horario"
+              type="text"
+              placeholder="Horário de Funcionamento"
+              value="Ter a Sex, 09:00 - ..."
+            />
 
-  <!-- HORÁRIO -->
-  <label class="visually-hidden" for="horario">Horário</label>
-  <input id="horario" name="horario" type="text"
-         placeholder="Horário de Funcionamento"
-         value="Ter a Sex, 09:00 - ..."/>
+            <!-- USUÁRIO -->
+            <label class="visually-hidden" for="usuario">Usuário</label>
+            <input
+              id="usuario"
+              name="usuario"
+              type="text"
+              placeholder="Usuário"
+              value="ecocenter.reciclagem"
+            />
 
-  <!-- USUÁRIO -->
-  <label class="visually-hidden" for="usuario">Usuário</label>
-  <input id="usuario" name="usuario" type="text"
-         placeholder="Usuário"
-         value="ecocenter.reciclagem"/>
+            <!-- SENHA + ÍCONE -->
+            <div class="password-row">
+              <label class="visually-hidden" for="senha">Senha</label>
+              <input
+                id="senha"
+                name="senha"
+                type="password"
+                placeholder="Senha"
+                value="secret"
+              />
+              <button
+                type="button"
+                id="togglePwd"
+                class="pwd-toggle"
+                aria-label="Mostrar senha"
+              >
+                <img src="../Imagens/olho.png" alt="mostrar senha" />
+              </button>
+            </div>
 
-  <!-- SENHA + ÍCONE -->
-  <div class="password-row">
-    <label class="visually-hidden" for="senha">Senha</label>
-    <input id="senha" name="senha" type="password"
-           placeholder="Senha" value="secret"/>
-    <button type="button" id="togglePwd" class="pwd-toggle" aria-label="Mostrar senha">
-      <img src="../Imagens/olho.png" alt="mostrar senha" />
-    </button>
-  </div>
-
-  <div class="btn-wrap">
-    <button type="submit" class="save-btn">Salvar</button>
-  </div>
-
-</form>
-      </main>
+            <div class="btn-wrap">
+              <button type="submit" class="save-btn">Salvar</button>
+            </div>
+          </form>
+        </main>
+      </div>
     </div>
-  </div>
 
-  <script src="conta_parceiro.js"></script>
-</body>
+    <script src="conta_parceiro.js"></script>
+  </body>
 </html>

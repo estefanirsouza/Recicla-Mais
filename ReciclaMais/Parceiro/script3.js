@@ -1,3 +1,5 @@
+console.log("JS CARREGOU!");
+
 // ======================= MENU MOBILE =======================
 document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.getElementById("hamburger");
@@ -10,17 +12,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const links = menuMobile.querySelectorAll(".mobile-link");
-  links.forEach(link => {
+  links.forEach((link) => {
     link.addEventListener("click", () => {
       menuMobile.classList.remove("show");
     });
   });
 
-  carregarRecompensas();
+  // Só carrega recompensas se a tabela existir na página
+  if (document.querySelector(".tabela-recompensas tbody")) {
+    carregarRecompensas();
+  }
 });
 
 // ======================= API CONFIG =======================
-const API = "http://ec2-54-233-50-250.sa-east-1.compute.amazonaws.com:5000/api/RecycleReward";
+const API =
+  "http://ec2-54-233-50-250.sa-east-1.compute.amazonaws.com:5000/api/recyclereward";
 
 const tableBody = document.querySelector(".tabela-recompensas tbody");
 const paginationContainer = document.getElementById("pagination");
@@ -38,12 +44,16 @@ async function carregarRecompensas() {
     rows = [];
     tableBody.innerHTML = "";
 
-    dados.forEach(item => {
+    dados.forEach((item) => {
       const tr = document.createElement("tr");
 
       tr.innerHTML = `
         <td>${item.recycleRewardId}</td>
-        <td>${item.dateUpdate ? item.dateUpdate.split("T")[0] : item.dateInsert.split("T")[0]}</td>
+        <td>${
+          item.dateUpdate
+            ? item.dateUpdate.split("T")[0]
+            : item.dateInsert.split("T")[0]
+        }</td>
         <td>${item.name}</td>
         <td>${item.city ?? "--"}</td>
         <td class="status disponivel">Disponível</td>
@@ -64,7 +74,6 @@ async function carregarRecompensas() {
     });
 
     displayPage(1);
-
   } catch (error) {
     console.error("Erro ao carregar recompensas:", error);
     alert("Erro ao carregar recompensas!");
@@ -83,7 +92,7 @@ function displayPage(page) {
   const start = (page - 1) * rowsPerPage;
   const end = start + rowsPerPage;
 
-  rows.slice(start, end).forEach(row => tableBody.appendChild(row));
+  rows.slice(start, end).forEach((row) => tableBody.appendChild(row));
 
   updatePaginationButtons(page);
 }
@@ -118,13 +127,15 @@ function updatePaginationButtons(currentPage) {
 }
 
 // ======================= BUSCA =======================
-searchInput.addEventListener("input", () => {
-  const filtro = searchInput.value.toLowerCase();
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+    const filtro = searchInput.value.toLowerCase();
 
-  const filtrado = rows.filter(row =>
-    row.textContent.toLowerCase().includes(filtro)
-  );
+    const filtrado = rows.filter((row) =>
+      row.textContent.toLowerCase().includes(filtro)
+    );
 
-  tableBody.innerHTML = "";
-  filtrado.forEach(row => tableBody.appendChild(row));
-});
+    tableBody.innerHTML = "";
+    filtrado.forEach((row) => tableBody.appendChild(row));
+  });
+}

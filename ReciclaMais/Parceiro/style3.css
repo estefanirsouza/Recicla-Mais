@@ -619,3 +619,80 @@ input {
     min-width: 100%;
   }
 }
+/* ============================
+   CORREÇÃO DO CARD
+============================ */
+.card {
+  width: 80%;
+  max-width: 900px;
+  background: #ffffff !important; /* fundo branco para contraste */
+  padding: 40px 50px;
+  border-radius: 20px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+/* ============================
+   FORM GRID AJUSTADO
+============================ */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 28px;
+  margin-top: 20px;
+}
+
+/* Campos que ocupam a largura inteira */
+.form-group.full {
+  grid-column: span 2;
+}
+
+/* ============================
+   LABELS VISÍVEIS E ESTILIZADAS
+============================ */
+label {
+  font-size: 16px;
+  color: #0b6c47;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* ============================
+   INPUTS APARECENDO
+============================ */
+input, textarea, select {
+  width: 100%;
+  padding: 12px 14px;
+  background: #ffffff;       /* fundo realmente visível */
+  border: 2px solid #d0d0d0; /* borda mais visível */
+  border-radius: 10px;
+  font-size: 15px;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #0b6c47;
+  box-shadow: 0 0 4px rgba(11,108,71,0.3);
+}
+
+/* ============================
+   TEXTAREA
+============================ */
+textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+/* ============================
+   RESPONSIVIDADE
+============================ */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-group.full {
+    grid-column: span 1;
+  }
+}

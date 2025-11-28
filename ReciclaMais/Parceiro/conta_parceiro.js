@@ -7,7 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
   toggleBtn.addEventListener("click", () => {
     const isPassword = senhaInput.type === "password";
     senhaInput.type = isPassword ? "text" : "password";
-    toggleBtn.setAttribute("aria-label", isPassword ? "Ocultar senha" : "Mostrar senha");
+    toggleBtn.setAttribute(
+      "aria-label",
+      isPassword ? "Ocultar senha" : "Mostrar senha"
+    );
   });
 
   // Envio do formulário

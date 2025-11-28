@@ -1,104 +1,115 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Gerenciar - Recicla+</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gerenciar - Recicla+</title>
 
-  <link rel="icon" type="image/png" href="../Imagens/icone_pesquisa.png" />
-  <link rel="stylesheet" href="style3.css" />
-
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
-<body>
-
-<header class="site-header">
-  <a href="../index.html" class="logo">
-    <img src="../Imagens/logo.png" alt="Recicla+" />
-    <img src="../Imagens/nome.png" alt="Recicla+" class="nome-logo" />
-  </a>
-
-  <!-- HAMBURGUER SEMPRE VISÍVEL -->
-  <button id="hamburger" class="hamburger" aria-label="Abrir menu">☰</button>
-
-  <!-- MENU MOBILE -->
-  <div id="menu-mobile" class="menu-mobile">
-    <a href="./home_parceiro.html" class="mobile-link">Home</a>
-    <a href="./gerenciamento.html" class="mobile-link">Gerenciar Recompensa</a>
-    <a href="./conta_parceiro.html" class="mobile-link">Conta</a>
-    <a href="../Publico/login.html" class="mobile-link">Sair</a>
-  </div>
-</header>
-
-<main class="tabela-container">
-  <div class="topo-acoes">
-    <a href="nova_recompensa.html" class="btn-nova-recompensa">Nova Recompensa</a>
-  </div>
-
-  <h2 class="titulo-pagina">Gerencie suas Recompensas</h2>
-
-  <div class="search-box">
-    <input type="text" id="busca" placeholder="Pesquisar recompensa..." />
-    <img src="../Imagens/busca.png" alt="Buscar" class="busca-icon">
-  </div>
-
-  <div class="tabela-wrapper">
-    <table class="tabela-recompensas">
-      <thead>
-        <tr>
-          <th>Código Validado</th>
-          <th>Data de Validação</th>
-          <th>Recompensa</th>
-          <th>Loja</th>
-          <th>Status</th>
-          <th>Validade</th>
-          <th>Requisitos</th>
-          <th>Outros</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <div id="pagination" class="pagination"></div>
-</main>
-
-<footer class="site-footer">
-  <div class="footer-container">
-    <div class="footer-section">
-      <h4>Recicla+</h4>
-      <p>Pontos de coleta perto de você e benefícios no seu bolso.</p>
-    </div>
-
-    <div class="footer-section">
-      <h4>Localização</h4>
-      <p><i class="fa fa-map-marker-alt"></i> Criciúma, Santa Catarina</p>
-    </div>
-
-    <div class="footer-section">
-      <h4>Contato</h4>
-      <a href="https://wa.me/5548988016101" target="_blank" class="whatsapp-link">
-        <i class="fab fa-whatsapp"></i> WhatsApp
+    <link rel="icon" type="image/png" href="../Imagens/icone_pesquisa.png" />
+    <link rel="stylesheet" href="style3.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="./home_parceiro.html" class="logo">
+        <img src="../Imagens/logo.png" alt="Recicla+" />
+        <img src="../Imagens/nome.png" alt="Recicla+" class="nome-logo" />
       </a>
-      <a href="#" class="instagram-link">
-        <i class="fab fa-instagram"></i> Instagram
-      </a>
-    </div>
 
-    <div class="footer-section">
-      <h4>Links Rápidos</h4>
-      <a href="./home_parceiro.html" class="mobile-link">Home</a>
-      <a href="./gerenciamento.html" class="mobile-link">Gerenciar Recompensa</a>
-      <a href="./conta_parceiro.html" class="mobile-link">Conta</a>
-      <a href="../Publico/login.html" class="mobile-link">Sair</a>
-    </div>
-  </div>
+      <button id="hamburger" class="hamburger" aria-label="Abrir menu">
+        ☰
+      </button>
 
-  <div class="footer-bottom">
-    <p>&copy; 2025 Recicla+. Todos os direitos reservados.</p>
-  </div>
-</footer>
+      <div id="menu-mobile" class="menu-mobile">
+        <a href="./home_parceiro.html" class="mobile-link">Home</a>
+        <a href="./gerenciamento.html" class="mobile-link"
+          >Gerenciar Recompensa</a
+        >
+        <a href="./conta_parceiro.html" class="mobile-link">Conta</a>
+        <a href="../Publico/login.html" class="mobile-link">Sair</a>
+      </div>
+    </header>
 
-<script src="recompensa-form.js"></script>
-</body>
+    <main class="tabela-container">
+      <div class="topo-acoes">
+        <a href="nova_recompensa.html" class="btn-nova-recompensa"
+          >Nova Recompensa</a
+        >
+      </div>
+
+      <h2 class="titulo-pagina">Gerencie suas Recompensas</h2>
+
+      <div class="search-box">
+        <input type="text" id="busca" placeholder="Pesquisar recompensa..." />
+        <img src="../Imagens/busca.png" alt="Buscar" class="busca-icon" />
+      </div>
+
+      <div class="tabela-wrapper">
+        <table class="tabela-recompensas">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Data</th>
+              <th>Recompensa</th>
+              <th>Cidade</th>
+              <th>Status</th>
+              <th>Validade</th>
+              <th>Descrição</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div id="pagination" class="pagination"></div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h4>Recicla+</h4>
+          <p>Pontos de coleta perto de você e benefícios no seu bolso.</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Localização</h4>
+          <p><i class="fa fa-map-marker-alt"></i> Criciúma, Santa Catarina</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Contato</h4>
+          <a
+            href="https://wa.me/5548988016101"
+            target="_blank"
+            class="whatsapp-link"
+          >
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </a>
+          <a href="#" class="instagram-link">
+            <i class="fab fa-instagram"></i> Instagram
+          </a>
+        </div>
+
+        <div class="footer-section">
+          <h4>Links Rápidos</h4>
+          <a href="./home_parceiro.html" class="mobile-link">Home</a>
+          <a href="./gerenciamento.html" class="mobile-link"
+            >Gerenciar Recompensa</a
+          >
+          <a href="./conta_parceiro.html" class="mobile-link">Conta</a>
+          <a href="../Publico/login.html" class="mobile-link">Sair</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Recicla+. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+
+    <script src="script3.js"></script>
+  </body>
 </html>

@@ -45,45 +45,49 @@
 
       <form id="formRecompensa" class="form-grid">
 
-        <div class="form-group">
-          <label>Código da Recompensa</label>
-          <input type="text">
-        </div>
+  <div class="form-group">
+    <label>Código da Recompensa</label>
+    <input id="campoCodigo" type="text" disabled>
+  </div>
 
-        <div class="form-group">
-          <label>Recompensa</label>
-          <input type="text">
-        </div>
+  <div class="form-group">
+    <label>Recompensa (Nome)</label>
+    <input id="campoNome" type="text">
+  </div>
 
-        <div class="form-group">
-          <label>Data de Validade</label>
-          <input type="date">
-        </div>
+  <div class="form-group">
+    <label>Data de Validade</label>
+    <input id="campoValidade" type="date">
+  </div>
 
-        <div class="form-group">
-          <label>Requisitos</label>
-          <input type="text">
-        </div>
+  <div class="form-group">
+    <label>Requisitos (Pontos Necessários)</label>
+    <input id="campoPontos" type="number">
+  </div>
 
-        <div class="form-group">
-          <label>Loja</label>
-          <input type="text">
-        </div>
+  <div class="form-group">
+    <label>Loja</label>
+    <input id="campoLoja" type="text">
+  </div>
 
-        <div class="form-group">
-          <label>CEP da Loja</label>
-          <input type="text">
-        </div>
+  <div class="form-group">
+    <label>CEP da Loja</label>
+    <input id="campoCep" type="text">
+  </div>
 
-        <div class="form-group full">
-          <label>Status</label>
-          <input type="text">
-        </div>
+  <div class="form-group full">
+    <label>Status</label>
+    <input id="campoStatus" type="text">
+  </div>
 
-        <button type="submit" class="btn save">Salvar</button>
-        <button type="button" class="btn delete">Excluir</button>
+  <div class="form-group full">
+    <label>Descrição</label>
+    <textarea id="campoDescricao"></textarea>
+  </div>
 
-      </form>
+  <button type="submit" class="btn save">Salvar</button>
+  <button type="button" class="btn delete" id="btnExcluir">Excluir</button>
+</form>
 
     </div>
   </main>

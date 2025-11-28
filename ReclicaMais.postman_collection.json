@@ -1460,14 +1460,15 @@
 		}
 	],
 	"variable": [
-		{
-			"key": "token",
-			"value": ""
-		},
-		{
-			"key": "url",
-			"value": "",
-			"type": "default"
-		}
-	]
+    {
+        "key": "token",
+        "value": ""
+    },
+    {
+        "key": "url",
+        "value": "http://ec2-54-233-50-250.sa-east-1.compute.amazonaws.com:5000/api/",
+        "type": "default"
+    }
+]
+
 }

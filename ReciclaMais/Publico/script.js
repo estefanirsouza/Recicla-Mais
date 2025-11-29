@@ -184,6 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== AUTENTICAÇÃO =====
   // A lógica de autenticação foi movida para auth.js para melhor organização
 
+  // ===== CONFIGURAÇÃO DA API =====
+  const API_BASE_URL = 'http://ec2-54-233-50-250.sa-east-1.compute.amazonaws.com:5000/api';
+
   // ===== PONTOS DE COLETA =====
   const materiaisSection = document.getElementById('materiais-section');
   const pontosSection = document.getElementById('pontos-section');
@@ -193,763 +196,48 @@ document.addEventListener('DOMContentLoaded', () => {
   const buscaPontosInput = document.getElementById('busca-pontos-input');
   const buscarPontosBtn = document.getElementById('buscar-pontos-btn');
 
-  // Dados simulados dos pontos de coleta
-  const pontosDeColeta = {
-    plastico: [
-      {
-        nome: "EcoCenter Reciclagem",
-        endereco: "Av. Verde, 123 – Bairro Jardim",
-        requisitos: [
-          "Levar no mínimo 5 garrafas PET",
-          "Lavar os plásticos antes de entregar"
-        ],
-        recompensa: "10 pontos no app de recompensas",
-        horario: "Seg a Sex, 08:00 - 17:00",
-        contato: "(11) 91234-5678"
-      },
-      {
-        nome: "Ponto Sustentável",
-        endereco: "Rua das Flores, 456 – Centro",
-        requisitos: [
-          "Separar plástico PET e plástico rígido",
-          "Embalagens sem resíduos de alimento",
-          "Levar no mínimo 35 garrafas PET"
-        ],
-        recompensa: "Voucher de café na padaria Mais Docê",
-        horario: "Ter a Sex, 09:00 - 18:00",
-        contato: "(11) 98765-4321"
-      },
-      {
-        nome: "Recicla Mais",
-        endereco: "Av. Principal, 789 – Centro",
-        requisitos: [
-          "Plásticos limpos e secos",
-          "Mínimo 3kg de plástico",
-          "Separar por tipo (PET, PEAD, PVC)"
-        ],
-        recompensa: "20 pontos no app + brinde ecológico",
-        horario: "Seg a Sáb, 07:00 - 18:00",
-        contato: "(11) 91234-8765"
-      },
-      {
-        nome: "Ecoponto Central",
-        endereco: "Rua Sustentável, 321 – Vila Verde",
-        requisitos: [
-          "Garrafas PET amassadas",
-          "Embalagens de produtos de limpeza",
-          "Mínimo 10 unidades"
-        ],
-        recompensa: "Cupom de desconto em loja parceira",
-        horario: "Ter a Dom, 09:00 - 17:00",
-        contato: "(11) 98765-1234"
-      },
-      {
-        nome: "Verde Vida Reciclagem",
-        endereco: "Av. Ecológica, 654 – Parque",
-        requisitos: [
-          "Plásticos rígidos separados",
-          "Sem restos de alimentos",
-          "Mínimo 5kg"
-        ],
-        recompensa: "15 pontos + semente de árvore",
-        horario: "Seg a Sex, 08:00 - 16:00",
-        contato: "(11) 92345-6789"
-      },
-      {
-        nome: "Plástico Verde",
-        endereco: "Rua Reciclagem, 890 – Vila Nova",
-        requisitos: [
-          "PET transparente e colorido",
-          "Embalagens limpas",
-          "Mínimo 20 garrafas"
-        ],
-        recompensa: "18 pontos no app",
-        horario: "Seg a Dom, 07:00 - 19:00",
-        contato: "(11) 91111-2222"
-      },
-      {
-        nome: "Eco Plástico",
-        endereco: "Av. Sustentável, 567 – Centro",
-        requisitos: [
-          "Todos os tipos de plástico",
-          "Limpos e secos",
-          "Mínimo 4kg"
-        ],
-        recompensa: "Voucher de desconto em loja",
-        horario: "Ter a Sáb, 09:00 - 17:00",
-        contato: "(11) 92222-3333"
-      },
-      {
-        nome: "Recicla PET",
-        endereco: "Rua do Meio Ambiente, 123 – Jardim",
-        requisitos: [
-          "Apenas garrafas PET",
-          "Amassadas e limpas",
-          "Mínimo 50 unidades"
-        ],
-        recompensa: "25 pontos + brinde",
-        horario: "Seg a Sex, 08:00 - 18:00",
-        contato: "(11) 93333-4444"
-      },
-      {
-        nome: "Plast Reciclagem",
-        endereco: "Av. Verde Vida, 321 – Parque Ecológico",
-        requisitos: [
-          "Plásticos diversos",
-          "Separados por tipo",
-          "Mínimo 6kg"
-        ],
-        recompensa: "20 pontos + certificado ecológico",
-        horario: "Qua a Dom, 10:00 - 16:00",
-        contato: "(11) 94444-5555"
-      },
-      {
-        nome: "Sustenta Plástico",
-        endereco: "Rua Ambiental, 654 – Bairro Verde",
-        requisitos: [
-          "Embalagens plásticas",
-          "Sem resíduos",
-          "Mínimo 30 unidades"
-        ],
-        recompensa: "15 pontos no app",
-        horario: "Seg a Sex, 09:00 - 17:00",
-        contato: "(11) 95555-6666"
-      },
-      {
-        nome: "Centro de Reciclagem Plástica",
-        endereco: "Av. Industrial, 789 – Zona Industrial",
-        requisitos: [
-          "Grandes volumes aceitos",
-          "Agendamento prévio",
-          "Mínimo 20kg"
-        ],
-        recompensa: "50 pontos + desconto especial",
-        horario: "Seg a Sex, 07:00 - 16:00",
-        contato: "(11) 96666-7777"
-      },
-      {
-        nome: "Plástico Mais",
-        endereco: "Rua Sustentabilidade, 234 – Vila",
-        requisitos: [
-          "Todos os tipos de plástico",
-          "Limpos e organizados",
-          "Mínimo 3kg"
-        ],
-        recompensa: "12 pontos no app",
-        horario: "Ter a Dom, 08:00 - 18:00",
-        contato: "(11) 97777-8888"
-      }
-    ],
-    vidro: [
-      {
-        nome: "Vidro Reciclável Center",
-        endereco: "Rua Cristal, 789 – Centro",
-        requisitos: [
-          "Vidros inteiros (sem quebras)",
-          "Separar por cor (transparente, verde, marrom)",
-          "Embalagens limpas"
-        ],
-        recompensa: "15 pontos no app de recompensas",
-        horario: "Seg a Sab: 07:00 - 16:00",
-        contato: "(11) 94567-8901"
-      },
-      {
-        nome: "Vidros & Vidros",
-        endereco: "Av. Transparente, 456 – Industrial",
-        requisitos: [
-          "Frascos e garrafas de vidro",
-          "Limpas e sem rótulos",
-          "Mínimo 10 unidades"
-        ],
-        recompensa: "Voucher em loja de vidros",
-        horario: "Seg a Sex, 09:00 - 17:00",
-        contato: "(11) 95678-9012"
-      },
-      {
-        nome: "Ecovitro Reciclagem",
-        endereco: "Rua Espelho, 123 – Bairro Novo",
-        requisitos: [
-          "Vidros quebrados em embalagem resistente",
-          "Sem partes de metal ou plástico",
-          "Mínimo 3kg"
-        ],
-        recompensa: "12 pontos no app",
-        horario: "Ter a Sáb, 08:00 - 15:00",
-        contato: "(11) 93456-7890"
-      },
-      {
-        nome: "Vidros do Futuro",
-        endereco: "Av. Cristal, 567 – Centro",
-        requisitos: [
-          "Garrafas e frascos de vidro",
-          "Limpos e sem tampas",
-          "Mínimo 15 unidades"
-        ],
-        recompensa: "18 pontos + desconto em vidros",
-        horario: "Seg a Sex, 08:00 - 17:00",
-        contato: "(11) 98888-9999"
-      },
-      {
-        nome: "Recicla Vidro",
-        endereco: "Rua Transparente, 890 – Parque",
-        requisitos: [
-          "Vidros coloridos e transparentes",
-          "Embalagens limpas",
-          "Mínimo 5kg"
-        ],
-        recompensa: "20 pontos no app",
-        horario: "Ter a Sáb, 09:00 - 16:00",
-        contato: "(11) 99999-0000"
-      },
-      {
-        nome: "Vitro Sustentável",
-        endereco: "Av. Vidro, 456 – Vila",
-        requisitos: [
-          "Garrafas de vidro inteiras",
-          "Sem rótulos de papel",
-          "Mínimo 20 unidades"
-        ],
-        recompensa: "15 pontos + brinde",
-        horario: "Seg a Dom, 08:00 - 18:00",
-        contato: "(11) 90000-1111"
-      },
-      {
-        nome: "Eco Vidro Center",
-        endereco: "Rua Reciclagem, 234 – Jardim",
-        requisitos: [
-          "Todos os tipos de vidro",
-          "Organizados por cor",
-          "Mínimo 10kg"
-        ],
-        recompensa: "25 pontos + certificado",
-        horario: "Qua a Dom, 07:00 - 17:00",
-        contato: "(11) 90111-2222"
-      },
-      {
-        nome: "Vidros Verdes",
-        endereco: "Av. Sustentável, 678 – Centro",
-        requisitos: [
-          "Vidros limpos",
-          "Sem etiquetas",
-          "Mínimo 8kg"
-        ],
-        recompensa: "22 pontos no app",
-        horario: "Seg a Sex, 09:00 - 18:00",
-        contato: "(11) 90222-3333"
-      }
-    ],
-    papel: [
-      {
-        nome: "Papel Ecológico",
-        endereco: "Av. das Árvores, 321 – Parque Verde",
-        requisitos: [
-          "Papel seco e limpo",
-          "Separar jornal, revista e papelão",
-          "Mínimo 2kg"
-        ],
-        recompensa: "Caderno ecológico",
-        horario: "Qua a Dom: 10:00 - 19:00",
-        contato: "(11) 92345-6789"
-      },
-      {
-        nome: "Recicla Papel",
-        endereco: "Rua das Folhas, 567 – Centro",
-        requisitos: [
-          "Papéis sem plástico",
-          "Sem grampos ou clipes",
-          "Mínimo 5kg"
-        ],
-        recompensa: "20 pontos + bloco de notas reciclado",
-        horario: "Seg a Sex, 08:00 - 17:00",
-        contato: "(11) 94567-8901"
-      },
-      {
-        nome: "Papel & Vida",
-        endereco: "Av. Sustentável, 890 – Vila Nova",
-        requisitos: [
-          "Papelão limpo e seco",
-          "Caixas desmontadas",
-          "Mínimo 10kg"
-        ],
-        recompensa: "25 pontos no app",
-        horario: "Ter a Sáb, 09:00 - 16:00",
-        contato: "(11) 97890-1234"
-      },
-      {
-        nome: "Papel Reciclado Plus",
-        endereco: "Rua das Folhas, 456 – Bairro Novo",
-        requisitos: [
-          "Papéis de escritório",
-          "Revistas e jornais",
-          "Mínimo 7kg"
-        ],
-        recompensa: "18 pontos + caderno reciclado",
-        horario: "Seg a Sex, 08:00 - 17:00",
-        contato: "(11) 90333-4444"
-      },
-      {
-        nome: "Eco Papel",
-        endereco: "Av. Papelão, 123 – Centro",
-        requisitos: [
-          "Papelão corrugado",
-          "Limpo e seco",
-          "Mínimo 15kg"
-        ],
-        recompensa: "30 pontos no app",
-        horario: "Ter a Sáb, 07:00 - 16:00",
-        contato: "(11) 90444-5555"
-      },
-      {
-        nome: "Recicla Papelão",
-        endereco: "Rua Sustentável, 567 – Parque",
-        requisitos: [
-          "Caixas de papelão",
-          "Desmontadas e limpas",
-          "Mínimo 12kg"
-        ],
-        recompensa: "22 pontos + brinde",
-        horario: "Seg a Dom, 09:00 - 18:00",
-        contato: "(11) 90555-6666"
-      },
-      {
-        nome: "Papel Ecológico Plus",
-        endereco: "Av. Verde, 789 – Vila",
-        requisitos: [
-          "Jornais e revistas",
-          "Sem plástico",
-          "Mínimo 5kg"
-        ],
-        recompensa: "15 pontos no app",
-        horario: "Qua a Dom, 10:00 - 19:00",
-        contato: "(11) 90666-7777"
-      },
-      {
-        nome: "Centro de Reciclagem de Papel",
-        endereco: "Rua do Meio Ambiente, 234 – Jardim",
-        requisitos: [
-          "Grandes volumes",
-          "Agendamento prévio",
-          "Mínimo 50kg"
-        ],
-        recompensa: "100 pontos + certificado",
-        horario: "Seg a Sex, 07:00 - 15:00",
-        contato: "(11) 90777-8888"
-      }
-    ],
-    metal: [
-      {
-        nome: "Metal Recicla",
-        endereco: "Rua Ferro, 654 – Industrial",
-        requisitos: [
-          "Latas limpas e amassadas",
-          "Separar alumínio e aço",
-          "Mínimo 1kg"
-        ],
-        recompensa: "5 pontos no app + brinde surpresa",
-        horario: "Seg a Sex: 08:30 - 17:30",
-        contato: "(11) 93456-7890"
-      },
-      {
-        nome: "Metais & Cia",
-        endereco: "Av. Alumínio, 234 – Centro",
-        requisitos: [
-          "Latas de bebidas amassadas",
-          "Ferros e metais diversos",
-          "Mínimo 3kg"
-        ],
-        recompensa: "15 pontos + imã de geladeira",
-        horario: "Seg a Sáb, 08:00 - 18:00",
-        contato: "(11) 91234-5678"
-      },
-      {
-        nome: "Recicla Metal",
-        endereco: "Rua Aço, 789 – Zona Industrial",
-        requisitos: [
-          "Metais separados por tipo",
-          "Limpos e secos",
-          "Mínimo 5kg"
-        ],
-        recompensa: "20 pontos no app",
-        horario: "Ter a Sex, 09:00 - 16:00",
-        contato: "(11) 98765-4321"
-      },
-      {
-        nome: "Metal & Ferro",
-        endereco: "Av. Industrial, 345 – Zona Industrial",
-        requisitos: [
-          "Latas de aço e alumínio",
-          "Amassadas e limpas",
-          "Mínimo 8kg"
-        ],
-        recompensa: "25 pontos + desconto",
-        horario: "Seg a Sáb, 08:00 - 17:00",
-        contato: "(11) 90888-9999"
-      },
-      {
-        nome: "Alumínio Recicla",
-        endereco: "Rua dos Metais, 678 – Centro",
-        requisitos: [
-          "Apenas latas de alumínio",
-          "Amassadas",
-          "Mínimo 10kg"
-        ],
-        recompensa: "30 pontos no app",
-        horario: "Ter a Dom, 09:00 - 18:00",
-        contato: "(11) 90999-0000"
-      },
-      {
-        nome: "Recicla Ferro",
-        endereco: "Av. Metalúrgica, 123 – Industrial",
-        requisitos: [
-          "Ferros e aços",
-          "Separados por tipo",
-          "Mínimo 15kg"
-        ],
-        recompensa: "35 pontos + certificado",
-        horario: "Seg a Sex, 07:00 - 16:00",
-        contato: "(11) 90000-1111"
-      },
-      {
-        nome: "Metais Sustentáveis",
-        endereco: "Rua Ecológica, 456 – Parque",
-        requisitos: [
-          "Todos os tipos de metal",
-          "Limpos e organizados",
-          "Mínimo 6kg"
-        ],
-        recompensa: "18 pontos no app",
-        horario: "Qua a Dom, 08:00 - 17:00",
-        contato: "(11) 90111-2222"
-      }
-    ],
-    oleo: [
-      {
-        nome: "Óleo Sustentável",
-        endereco: "Av. Ecológica, 987 – Centro",
-        requisitos: [
-          "Óleo usado em garrafa PET",
-          "Óleo limpo sem resíduos de comida",
-          "Mínimo 2 litros"
-        ],
-        recompensa: "Sabão ecológico caseiro",
-        horario: "Seg a Sex: 09:00 - 16:00",
-        contato: "(11) 95678-9012"
-      },
-      {
-        nome: "Óleo Verde",
-        endereco: "Rua Sustentável, 543 – Vila",
-        requisitos: [
-          "Óleo de cozinha usado",
-          "Em recipiente fechado",
-          "Mínimo 1 litro"
-        ],
-        recompensa: "10 pontos + sabão artesanal",
-        horario: "Ter a Sáb, 08:00 - 15:00",
-        contato: "(11) 92345-6789"
-      },
-      {
-        nome: "Recicla Óleo",
-        endereco: "Av. Reciclagem, 321 – Centro",
-        requisitos: [
-          "Óleo filtrado e limpo",
-          "Sem água misturada",
-          "Mínimo 3 litros"
-        ],
-        recompensa: "15 pontos + produto de limpeza",
-        horario: "Seg a Dom, 09:00 - 17:00",
-        contato: "(11) 93456-7890"
-      },
-      {
-        nome: "Óleo Verde Vida",
-        endereco: "Rua Sustentável, 789 – Vila",
-        requisitos: [
-          "Óleo de cozinha usado",
-          "Em garrafa PET fechada",
-          "Mínimo 2 litros"
-        ],
-        recompensa: "12 pontos + sabão ecológico",
-        horario: "Seg a Sex, 09:00 - 16:00",
-        contato: "(11) 90222-3333"
-      },
-      {
-        nome: "Eco Óleo",
-        endereco: "Av. Ecológica, 567 – Centro",
-        requisitos: [
-          "Óleo usado filtrado",
-          "Sem resíduos sólidos",
-          "Mínimo 5 litros"
-        ],
-        recompensa: "20 pontos + kit de produtos",
-        horario: "Ter a Sáb, 08:00 - 17:00",
-        contato: "(11) 90333-4444"
-      }
-    ],
-    organicos: [
-      {
-        nome: "Compostagem Natural",
-        endereco: "Rua Verde, 234 – Jardim",
-        requisitos: [
-          "Resíduos orgânicos separados",
-          "Sem plástico ou materiais não orgânicos",
-          "Trazer em recipiente próprio"
-        ],
-        recompensa: "Adubo orgânico",
-        horario: "Ter a Sab: 08:00 - 15:00",
-        contato: "(11) 96789-0123"
-      },
-      {
-        nome: "Horta Comunitária",
-        endereco: "Av. Orgânica, 678 – Parque",
-        requisitos: [
-          "Cascas de frutas e legumes",
-          "Restos de comida vegetal",
-          "Mínimo 2kg"
-        ],
-        recompensa: "Mudas de hortaliças",
-        horario: "Seg a Sex, 07:00 - 16:00",
-        contato: "(11) 91234-8765"
-      },
-      {
-        nome: "Eco Compostagem",
-        endereco: "Rua Fertilizante, 456 – Vila",
-        requisitos: [
-          "Materiais orgânicos secos",
-          "Sem carnes ou laticínios",
-          "Mínimo 3kg"
-        ],
-        recompensa: "15 pontos + composto orgânico",
-        horario: "Ter a Dom, 08:00 - 14:00",
-        contato: "(11) 95678-1234"
-      },
-      {
-        nome: "Orgânico Natural",
-        endereco: "Av. Verde, 123 – Parque",
-        requisitos: [
-          "Cascas e restos vegetais",
-          "Limpos e separados",
-          "Mínimo 4kg"
-        ],
-        recompensa: "18 pontos + mudas",
-        horario: "Seg a Sex, 08:00 - 15:00",
-        contato: "(11) 90444-5555"
-      },
-      {
-        nome: "Compostagem Vida",
-        endereco: "Rua Orgânica, 678 – Jardim",
-        requisitos: [
-          "Resíduos orgânicos",
-          "Sem plástico",
-          "Mínimo 5kg"
-        ],
-        recompensa: "20 pontos no app",
-        horario: "Ter a Sáb, 07:00 - 16:00",
-        contato: "(11) 90555-6666"
-      }
-    ],
-    hospitalares: [
-      {
-        nome: "Saúde Ambiental",
-        endereco: "Av. da Saúde, 567 – Centro",
-        requisitos: [
-          "Material em embalagem específica",
-          "Agendamento prévio obrigatório",
-          "Documentação necessária"
-        ],
-        recompensa: "Certificado de descarte correto",
-        horario: "Seg a Sex: 08:00 - 12:00",
-        contato: "(11) 97890-1234"
-      },
-      {
-        nome: "Descartável Seguro",
-        endereco: "Rua Médica, 890 – Zona Hospitalar",
-        requisitos: [
-          "Materiais perfurocortantes em caixa específica",
-          "Agulhas em recipiente rígido",
-          "Agendamento prévio"
-        ],
-        recompensa: "Certificado de descarte ambiental",
-        horario: "Seg a Sex, 09:00 - 13:00",
-        contato: "(11) 92345-8765"
-      },
-      {
-        nome: "Resíduos Especiais",
-        endereco: "Av. Hospitalar, 234 – Centro Médico",
-        requisitos: [
-          "Medicamentos vencidos",
-          "Frasco de remédios vazios",
-          "Receita ou prescrição médica"
-        ],
-        recompensa: "10 pontos + certificado",
-        horario: "Ter a Sex, 08:00 - 12:00",
-        contato: "(11) 93456-9012"
-      },
-      {
-        nome: "Saúde & Ambiente",
-        endereco: "Rua Médica, 567 – Zona Hospitalar",
-        requisitos: [
-          "Material hospitalar descartável",
-          "Em embalagem segura",
-          "Agendamento obrigatório"
-        ],
-        recompensa: "Certificado de descarte",
-        horario: "Seg a Sex, 09:00 - 13:00",
-        contato: "(11) 90666-7777"
-      },
-      {
-        nome: "Descarte Seguro",
-        endereco: "Av. Saúde, 890 – Centro",
-        requisitos: [
-          "Resíduos de saúde",
-          "Documentação completa",
-          "Agendamento prévio"
-        ],
-        recompensa: "15 pontos + certificado",
-        horario: "Ter a Sex, 08:00 - 12:00",
-        contato: "(11) 90777-8888"
-      }
-    ],
-    moveis: [
-      {
-        nome: "Móveis Reciclados",
-        endereco: "Rua dos Móveis, 876 – Industrial",
-        requisitos: [
-          "Móveis em condições de reaproveitamento",
-          "Desmontar quando necessário",
-          "Agendamento prévio"
-        ],
-        recompensa: "Cupom de desconto em reformas",
-        horario: "Qua a Dom: 09:00 - 17:00",
-        contato: "(11) 98901-2345"
-      },
-      {
-        nome: "Reutiliza Móveis",
-        endereco: "Av. Reforma, 567 – Centro",
-        requisitos: [
-          "Móveis usados em bom estado",
-          "Sem cupins ou danos graves",
-          "Agendamento obrigatório"
-        ],
-        recompensa: "15 pontos + desconto em móveis",
-        horario: "Seg a Sáb, 09:00 - 17:00",
-        contato: "(11) 91234-5678"
-      },
-      {
-        nome: "Upcycle Móveis",
-        endereco: "Rua Renovada, 234 – Vila",
-        requisitos: [
-          "Móveis para reaproveitamento",
-          "Peças separadas e organizadas",
-          "Mínimo 2 peças"
-        ],
-        recompensa: "10 pontos no app",
-        horario: "Ter a Sex, 08:00 - 16:00",
-        contato: "(11) 94567-8901"
-      },
-      {
-        nome: "Móveis Sustentáveis",
-        endereco: "Av. Reforma, 345 – Centro",
-        requisitos: [
-          "Móveis usados",
-          "Em bom estado de conservação",
-          "Agendamento prévio"
-        ],
-        recompensa: "20 pontos + desconto",
-        horario: "Seg a Sáb, 09:00 - 17:00",
-        contato: "(11) 90888-9999"
-      },
-      {
-        nome: "Recicla Móveis",
-        endereco: "Rua dos Móveis, 678 – Vila",
-        requisitos: [
-          "Móveis desmontados",
-          "Peças organizadas",
-          "Mínimo 3 peças"
-        ],
-        recompensa: "15 pontos no app",
-        horario: "Qua a Dom, 08:00 - 16:00",
-        contato: "(11) 90999-0000"
-      }
-    ],
-    eletronicos: [
-      {
-        nome: "E-Lixo Reciclagem",
-        endereco: "Av. Tecnologia, 543 – Centro",
-        requisitos: [
-          "Aparelhos completos quando possível",
-          "Baterias removidas separadamente",
-          "Cabos enrolados e organizados"
-        ],
-        recompensa: "10 pontos no app + brinde tecnológico",
-        horario: "Seg a Sex: 10:00 - 18:00",
-        contato: "(11) 99012-3456"
-      },
-      {
-        nome: "Tech Recicla",
-        endereco: "Rua Digital, 789 – Zona Tech",
-        requisitos: [
-          "Eletrônicos desligados",
-          "Baterias removidas",
-          "Cabos separados"
-        ],
-        recompensa: "20 pontos + certificado de descarte",
-        horario: "Seg a Sáb, 09:00 - 17:00",
-        contato: "(11) 92345-6789"
-      },
-      {
-        nome: "Recicla Eletrônicos",
-        endereco: "Av. Eletrônica, 456 – Centro",
-        requisitos: [
-          "Aparelhos sem dados pessoais",
-          "Carregadores e acessórios",
-          "Mínimo 3 unidades"
-        ],
-        recompensa: "15 pontos no app",
-        horario: "Ter a Sex, 10:00 - 16:00",
-        contato: "(11) 93456-7890"
-      },
-      {
-        nome: "E-Lixo Verde",
-        endereco: "Rua Tecnológica, 789 – Zona Tech",
-        requisitos: [
-          "Eletrônicos antigos",
-          "Baterias removidas",
-          "Mínimo 5 unidades"
-        ],
-        recompensa: "25 pontos + brinde",
-        horario: "Seg a Sáb, 09:00 - 18:00",
-        contato: "(11) 90000-1111"
-      },
-      {
-        nome: "Tech Reciclagem",
-        endereco: "Av. Digital, 234 – Centro",
-        requisitos: [
-          "Celulares e tablets",
-          "Sem dados pessoais",
-          "Mínimo 2 unidades"
-        ],
-        recompensa: "20 pontos + certificado",
-        horario: "Ter a Sex, 10:00 - 17:00",
-        contato: "(11) 90111-2222"
-      },
-      {
-        nome: "Recicla Tech",
-        endereco: "Rua Eletrônica, 567 – Parque",
-        requisitos: [
-          "Computadores e periféricos",
-          "HDs formatados",
-          "Agendamento prévio"
-        ],
-        recompensa: "30 pontos no app",
-        horario: "Seg a Sex, 08:00 - 16:00",
-        contato: "(11) 90222-3333"
-      }
-    ]
-  };
+  // Cache de pontos de coleta da API
+  let todosOsPontosAPI = [];
 
   // Variáveis de paginação para pontos de coleta
   let pontosPorPagina = 6;
   let paginaAtualPontos = 0;
   let pontosFiltrados = [];
+
+  // Função para buscar pontos de coleta da API
+  async function buscarPontosDeColetaDaAPI() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/RecyclePoint/getall`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao buscar pontos de coleta');
+      }
+
+      const pontos = await response.json();
+      todosOsPontosAPI = pontos;
+      return pontos;
+    } catch (error) {
+      console.error('Erro ao buscar pontos de coleta:', error);
+      mostrarMensagem('Erro ao carregar pontos de coleta. Tente novamente.', 'error');
+      return [];
+    }
+  }
+
+  // Função para formatar endereço completo
+  function formatarEndereco(ponto) {
+    const partes = [];
+    if (ponto.address) partes.push(ponto.address);
+    if (ponto.neighborhood) partes.push(ponto.neighborhood);
+    if (ponto.city) partes.push(ponto.city);
+    if (ponto.state) partes.push(ponto.state);
+    if (ponto.zipCode) partes.push(`CEP: ${ponto.zipCode}`);
+    return partes.join(' – ') || 'Endereço não informado';
+  }
 
   // Função para renderizar pontos com paginação
   function renderizarPontosComPaginacao(pontos) {
@@ -980,31 +268,23 @@ document.addEventListener('DOMContentLoaded', () => {
     pontosLista.innerHTML = pontosDaPagina.map(ponto => `
       <div class="ponto-coleta-card">
         <div class="ponto-header">
-          <h3>${ponto.nome}</h3>
+          <h3>${ponto.name || 'Ponto de Coleta'}</h3>
         </div>
-        <p class="endereco">${ponto.endereco}</p>
+        <p class="endereco">${formatarEndereco(ponto)}</p>
         
-        <div class="info-section">
-          <h4><i class="fa fa-info-circle"></i> Requisitos da Recompensa</h4>
-          <ul class="requisitos-lista">
-            ${ponto.requisitos.map(req => `<li>${req}</li>`).join('')}
-          </ul>
-        </div>
-        
-        <div class="info-section">
-          <h4><i class="fa fa-gift"></i> Recompensa</h4>
-          <div class="recompensa">${ponto.recompensa}</div>
-        </div>
-        
+        ${ponto.workingHours ? `
         <div class="info-section">
           <h4><i class="fa fa-clock"></i> Horário de Funcionamento</h4>
-          <div class="horario">${ponto.horario}</div>
+          <div class="horario">${ponto.workingHours}</div>
         </div>
+        ` : ''}
         
+        ${ponto.phoneNumber ? `
         <div class="info-section">
           <h4><i class="fa fa-phone"></i> Contato</h4>
-          <div class="contato">${ponto.contato}</div>
+          <div class="contato">${ponto.phoneNumber}</div>
         </div>
+        ` : ''}
       </div>
     `).join('');
   }
@@ -1073,18 +353,132 @@ document.addEventListener('DOMContentLoaded', () => {
     paginacaoEl.appendChild(btnProximo);
   }
 
+  // Removido: objeto pontosDeColeta hardcoded - agora busca da API
+
   // Função para mostrar pontos de coleta
-  function mostrarPontosDeColeta(material) {
+  async function mostrarPontosDeColeta(material) {
     materialAtual = material;
     pontosTitulo.textContent = "Escolha o destino da sua Reciclagem";
     
-    const pontos = pontosDeColeta[material] || [];
-    todosOsPontos = pontos;
-    
-    renderizarPontosComPaginacao(pontos);
+    // Mostrar loading
+    pontosLista.innerHTML = `
+      <div class="ponto-coleta-card">
+        <h3>Carregando pontos de coleta...</h3>
+        <p>Aguarde enquanto buscamos os pontos disponíveis.</p>
+      </div>
+    `;
     
     materiaisSection.classList.add('hidden');
     pontosSection.classList.add('active');
+    
+    // Buscar pontos da API
+    let pontos = [];
+    if (todosOsPontosAPI.length === 0) {
+      pontos = await buscarPontosDeColetaDaAPI();
+    } else {
+      pontos = todosOsPontosAPI;
+    }
+    
+    // Filtrar por material se necessário (quando a API tiver essa relação)
+    // Por enquanto, mostra todos os pontos
+    todosOsPontos = pontos;
+    
+    renderizarPontosComPaginacao(pontos);
+  }
+
+  // Função para atualizar paginação
+  function atualizarPaginacaoPontos(totalPaginas) {
+    const paginacaoContainer = document.getElementById('paginacao-pontos');
+    if (!paginacaoContainer) {
+      // Criar container de paginação se não existir
+      const paginacaoDiv = document.createElement('div');
+      paginacaoDiv.id = 'paginacao-pontos';
+      paginacaoDiv.className = 'paginacao-pontos';
+      pontosLista.parentNode.insertBefore(paginacaoDiv, pontosLista.nextSibling);
+    }
+    
+    const paginacaoEl = document.getElementById('paginacao-pontos');
+    if (totalPaginas <= 1) {
+      paginacaoEl.innerHTML = '';
+      return;
+    }
+    
+    paginacaoEl.innerHTML = '';
+    
+    // Botão anterior
+    const btnAnterior = document.createElement('button');
+    btnAnterior.className = 'pagina-ponto-btn pagina-ponto-anterior';
+    btnAnterior.innerHTML = '‹';
+    btnAnterior.disabled = paginaAtualPontos === 0;
+    btnAnterior.addEventListener('click', () => {
+      if (paginaAtualPontos > 0) {
+        paginaAtualPontos--;
+        atualizarPontosPagina();
+        atualizarPaginacaoPontos(totalPaginas);
+      }
+    });
+    paginacaoEl.appendChild(btnAnterior);
+    
+    // Botões numéricos
+    for (let i = 0; i < totalPaginas; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'pagina-ponto-btn';
+      if (i === paginaAtualPontos) {
+        btn.classList.add('active');
+      }
+      btn.textContent = i + 1;
+      btn.addEventListener('click', () => {
+        paginaAtualPontos = i;
+        atualizarPontosPagina();
+        atualizarPaginacaoPontos(totalPaginas);
+      });
+      paginacaoEl.appendChild(btn);
+    }
+    
+    // Botão próximo
+    const btnProximo = document.createElement('button');
+    btnProximo.className = 'pagina-ponto-btn pagina-ponto-proximo';
+    btnProximo.innerHTML = '›';
+    btnProximo.disabled = paginaAtualPontos === totalPaginas - 1;
+    btnProximo.addEventListener('click', () => {
+      if (paginaAtualPontos < totalPaginas - 1) {
+        paginaAtualPontos++;
+        atualizarPontosPagina();
+        atualizarPaginacaoPontos(totalPaginas);
+      }
+    });
+    paginacaoEl.appendChild(btnProximo);
+  }
+
+  // Função para mostrar pontos de coleta
+  async function mostrarPontosDeColeta(material) {
+    materialAtual = material;
+    pontosTitulo.textContent = "Escolha o destino da sua Reciclagem";
+    
+    // Mostrar loading
+    pontosLista.innerHTML = `
+      <div class="ponto-coleta-card">
+        <h3>Carregando pontos de coleta...</h3>
+        <p>Aguarde enquanto buscamos os pontos disponíveis.</p>
+      </div>
+    `;
+    
+    materiaisSection.classList.add('hidden');
+    pontosSection.classList.add('active');
+    
+    // Buscar pontos da API
+    let pontos = [];
+    if (todosOsPontosAPI.length === 0) {
+      pontos = await buscarPontosDeColetaDaAPI();
+    } else {
+      pontos = todosOsPontosAPI;
+    }
+    
+    // Filtrar por material se necessário (quando a API tiver essa relação)
+    // Por enquanto, mostra todos os pontos
+    todosOsPontos = pontos;
+    
+    renderizarPontosComPaginacao(pontos);
   }
 
   // Função para obter o nome formatado do material
@@ -1114,44 +508,33 @@ document.addEventListener('DOMContentLoaded', () => {
   let materialAtual = null;
   let todosOsPontos = [];
 
-  // Função para buscar pontos (por nome do ponto, tipo de material, título ou localização)
-  function buscarPontos() {
+  // Função para buscar pontos (por nome, endereço, cidade, etc)
+  async function buscarPontos() {
     const termo = buscaPontosInput.value.toLowerCase().trim();
     
     if (!termo) {
       // Se não houver termo, mostrar todos os pontos
-      mostrarPontosDeColeta(materialAtual);
+      await mostrarPontosDeColeta(materialAtual);
       return;
     }
 
-    // Buscar em todos os materiais se não houver material selecionado
-    const pontosParaBuscar = materialAtual ? pontosDeColeta[materialAtual] || [] : 
-      Object.values(pontosDeColeta).flat();
+    // Garantir que temos os pontos da API
+    if (todosOsPontosAPI.length === 0) {
+      await buscarPontosDeColetaDaAPI();
+    }
     
     // Filtrar pontos que correspondem ao termo de busca
-    const pontosFiltrados = pontosParaBuscar.filter(ponto => {
-      const nomeMatch = ponto.nome.toLowerCase().includes(termo);
-      const enderecoMatch = ponto.endereco.toLowerCase().includes(termo);
-      const recompensaMatch = ponto.recompensa.toLowerCase().includes(termo);
-      const horarioMatch = ponto.horario.toLowerCase().includes(termo);
-      const requisitosMatch = ponto.requisitos.some(req => req.toLowerCase().includes(termo));
+    const pontosFiltrados = todosOsPontosAPI.filter(ponto => {
+      const nomeMatch = (ponto.name || '').toLowerCase().includes(termo);
+      const enderecoMatch = (ponto.address || '').toLowerCase().includes(termo);
+      const bairroMatch = (ponto.neighborhood || '').toLowerCase().includes(termo);
+      const cidadeMatch = (ponto.city || '').toLowerCase().includes(termo);
+      const estadoMatch = (ponto.state || '').toLowerCase().includes(termo);
+      const cepMatch = (ponto.zipCode || '').toLowerCase().includes(termo);
+      const telefoneMatch = (ponto.phoneNumber || '').toLowerCase().includes(termo);
+      const horarioMatch = (ponto.workingHours || '').toLowerCase().includes(termo);
       
-      // Buscar também pelo tipo de material
-      let tipoMatch = false;
-      if (materialAtual) {
-        const nomeMaterial = getMaterialNome(materialAtual).toLowerCase();
-        tipoMatch = nomeMaterial.includes(termo) || termo.includes(nomeMaterial);
-      } else {
-        // Se não há material selecionado, buscar em todos os tipos
-        Object.keys(pontosDeColeta).forEach(key => {
-          const nomeMaterial = getMaterialNome(key).toLowerCase();
-          if (nomeMaterial.includes(termo) || termo.includes(nomeMaterial)) {
-            tipoMatch = true;
-          }
-        });
-      }
-      
-      return nomeMatch || enderecoMatch || recompensaMatch || horarioMatch || requisitosMatch || tipoMatch;
+      return nomeMatch || enderecoMatch || bairroMatch || cidadeMatch || estadoMatch || cepMatch || telefoneMatch || horarioMatch;
     });
 
     // Renderizar pontos filtrados com paginação

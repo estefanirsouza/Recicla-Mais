@@ -1,5 +1,31 @@
+// Configuração da API
+const API_BASE_URL = 'http://ec2-54-233-50-250.sa-east-1.compute.amazonaws.com:5000/api';
+
+// Função para obter dados do usuário do localStorage
+function obterDadosUsuario() {
+  const userData = localStorage.getItem('userData');
+  return userData ? JSON.parse(userData) : null;
+}
+
+// Função para atualizar nome do usuário na página
+function atualizarNomeUsuario() {
+  const userData = obterDadosUsuario();
+  const nomeElement = document.getElementById('nome-usuario');
+  
+  if (nomeElement && userData) {
+    const nomeCompleto = `${userData.name || ''} ${userData.surname || ''}`.trim();
+    nomeElement.textContent = nomeCompleto || userData.userName || 'Usuário';
+  } else if (nomeElement && !userData) {
+    // Se não estiver autenticado, redirecionar para login
+    window.location.href = '../Publico/login.html';
+  }
+}
+
 //Menu
 document.addEventListener('DOMContentLoaded', () => {
+  // Atualizar nome do usuário
+  atualizarNomeUsuario();
+  
   const hamburger = document.getElementById('hamburger');
   const menuMobile = document.getElementById('menu-mobile');
 

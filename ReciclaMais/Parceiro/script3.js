@@ -1,7 +1,86 @@
 console.log("JS CARREGOU!");
 
+// Configuração da API
+const API_BASE_URL = 'http://ec2-54-233-50-250.sa-east-1.compute.amazonaws.com:5000/api';
+
+// Função para obter token de autenticação
+function obterToken() {
+  return localStorage.getItem('authToken');
+}
+
+// Função para obter dados do usuário do localStorage
+function obterDadosUsuario() {
+  const userData = localStorage.getItem('userData');
+  return userData ? JSON.parse(userData) : null;
+}
+
+// Função para buscar dados do parceiro (ponto de reciclagem) da API
+async function buscarDadosParceiroAPI(userId) {
+  try {
+    const token = obterToken();
+    if (!token) {
+      throw new Error('Usuário não autenticado');
+    }
+
+    // Buscar todos os pontos de reciclagem e filtrar por userId
+    const response = await fetch(`${API_BASE_URL}/RecyclePoint/getall`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar dados do parceiro');
+    }
+
+    const pontos = await response.json();
+    // Encontrar o ponto de reciclagem associado a este usuário
+    const pontoParceiro = pontos.find(p => p.userId === userId);
+    return pontoParceiro;
+  } catch (error) {
+    console.error('Erro ao buscar dados do parceiro:', error);
+    return null;
+  }
+}
+
+// Função para atualizar nome do parceiro na página
+async function atualizarNomeParceiro() {
+  const userData = obterDadosUsuario();
+  const nomeElement = document.getElementById('nome-parceiro');
+  
+  if (!userData || !userData.id) {
+    // Se não estiver autenticado, redirecionar para login
+    window.location.href = '../Publico/login.html';
+    return;
+  }
+  
+  if (nomeElement) {
+    // Tentar buscar dados do parceiro da API
+    try {
+      const dadosParceiro = await buscarDadosParceiroAPI(userData.id);
+      if (dadosParceiro && dadosParceiro.name) {
+        nomeElement.textContent = dadosParceiro.name;
+      } else {
+        // Fallback para nome do usuário se não encontrar ponto de reciclagem
+        const nomeCompleto = `${userData.name || ''} ${userData.surname || ''}`.trim();
+        nomeElement.textContent = nomeCompleto || userData.userName || 'Parceiro';
+      }
+    } catch (error) {
+      console.error('Erro ao buscar nome do parceiro:', error);
+      // Fallback para nome do usuário
+      const nomeCompleto = `${userData.name || ''} ${userData.surname || ''}`.trim();
+      nomeElement.textContent = nomeCompleto || userData.userName || 'Parceiro';
+    }
+  }
+}
+
 // ======================= MENU MOBILE =======================
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  // Atualizar nome do parceiro
+  await atualizarNomeParceiro();
+  
   const hamburger = document.getElementById("hamburger");
   const menuMobile = document.getElementById("menu-mobile");
 

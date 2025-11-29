@@ -84,21 +84,9 @@ async function fazerCadastro(dados) {
       throw new Error(errorMessage);
     }
     
-    // Salvar token e dados do usuário
-    if (data.token) {
-      localStorage.setItem('authToken', data.token);
-      localStorage.setItem('userData', JSON.stringify({
-        id: data.id,
-        email: data.email,
-        name: data.name,
-        surname: data.surname,
-        userName: data.userName,
-        roles: data.roles
-      }));
-    }
-    
-    // Redirecionar baseado na role
-    redirecionarPorRole(data.roles);
+    // Após cadastro bem-sucedido, redirecionar para login
+    // O usuário deve fazer login manualmente
+    window.location.href = './login.html';
     
     return data;
   } catch (error) {
@@ -201,8 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const loginInput = document.getElementById('login');
       const senhaInput = document.getElementById('senha');
       
-      // O login pode ser email ou username, mas a API espera email
-      // Vamos assumir que o campo "login" pode ser email
+      // O campo de login agora é obrigatoriamente email
       const email = loginInput.value.trim();
       const password = senhaInput.value;
       

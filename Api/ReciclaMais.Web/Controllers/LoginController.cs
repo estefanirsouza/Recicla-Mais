@@ -52,8 +52,25 @@ public class LoginController : ControllerBase
             return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
         }
 
-        // Assign default role "User" to new users
-        await _userManager.AddToRoleAsync(user, request.Role);
+        // Validate role exists before assigning
+        if (!string.IsNullOrWhiteSpace(request.Role))
+        {
+            var roleExists = await _roleManager.RoleExistsAsync(request.Role);
+            if (!roleExists)
+            {
+                // If role doesn't exist, assign default "User" role
+                await _userManager.AddToRoleAsync(user, "User");
+            }
+            else
+            {
+                await _userManager.AddToRoleAsync(user, request.Role);
+            }
+        }
+        else
+        {
+            // Default role if no role specified
+            await _userManager.AddToRoleAsync(user, "User");
+        }
 
         var roles = await _userManager.GetRolesAsync(user);
         var token = _jwtTokenService.GenerateToken(user, roles);
@@ -79,7 +96,14 @@ public class LoginController : ControllerBase
             return BadRequest(ModelState);
         }
 
+        // Try to find user by email first, then by username
         var user = await _userManager.FindByEmailAsync(request.Email);
+        if (user == null)
+        {
+            // If not found by email, try to find by username
+            user = await _userManager.FindByNameAsync(request.Email);
+        }
+
         if (user == null)
         {
             return Unauthorized(new { message = "Invalid email or password" });

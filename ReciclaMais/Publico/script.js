@@ -181,27 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 5000);
   }
 
-  // ===== LOGIN FORM =====
-  const loginForm = document.querySelector('.login-form');
-  if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      // Aqui você pode adicionar a lógica de autenticação
-      console.log('Tentativa de login');
-      // Exemplo: window.location.href = 'dashboard.html';
-    });
-  }
-
-  // ===== CADASTRO FORM =====
-  const cadastroForm = document.querySelector('.cadastro-form');
-  if (cadastroForm) {
-    cadastroForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      // Aqui você pode adicionar a lógica de cadastro
-      console.log('Tentativa de cadastro');
-      // Exemplo: window.location.href = 'login.html';
-    });
-  }
+  // ===== AUTENTICAÇÃO =====
+  // A lógica de autenticação foi movida para auth.js para melhor organização
 
   // ===== PONTOS DE COLETA =====
   const materiaisSection = document.getElementById('materiais-section');

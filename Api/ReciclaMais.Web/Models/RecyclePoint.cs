@@ -17,6 +17,8 @@ public class RecyclePoint
     public string? WorkingHours {get; set;}
     public DateTime? DateInsert {get; set;}
     public DateTime? DateUpdate {get; set;}
+    [NotMapped]
+    public List<int>? RecycleMaterialIds {get; set;}
 
     internal string? Validate()
     {

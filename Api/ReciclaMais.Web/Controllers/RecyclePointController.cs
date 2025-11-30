@@ -9,10 +9,12 @@ namespace ReciclaMais.Web.Controllers;
 public class RecyclePointController : ControllerBase
 {
     private readonly IRecyclePointService _recyclePointService;
+    private readonly IRecyclePointMaterialService _recyclePointMaterialService;
 
-    public RecyclePointController(IRecyclePointService recyclePointService)
+    public RecyclePointController(IRecyclePointService recyclePointService, IRecyclePointMaterialService recyclePointMaterialService)
     {
         _recyclePointService = recyclePointService;
+        _recyclePointMaterialService = recyclePointMaterialService;
     }
 
     [HttpPost]
@@ -147,6 +149,7 @@ public class RecyclePointController : ControllerBase
                && string.IsNullOrWhiteSpace(dto.Address)
                && string.IsNullOrWhiteSpace(dto.Neighborhood)
                && string.IsNullOrWhiteSpace(dto.ZipCode)
+               && (dto.RecycleMaterialIds == null || dto.RecycleMaterialIds.Count == 0)
                )
             {
                 return BadRequest("Obrigatório informar ao menos um detalhe para busca do ponto de reciclagem.");
@@ -158,6 +161,70 @@ public class RecyclePointController : ControllerBase
         catch(Exception ex)
         {
             return StatusCode(500, $"Erro ao obter pontos de reciclagem por detalhes: {ex.Message}");
+        }
+    }
+
+    [HttpPost]
+    [Route("addmaterial")]
+    public async Task<IActionResult> AddMaterialToRecyclePoint([FromBody] RecyclePointMaterial recyclePointMaterial)
+    {
+        try
+        {
+            if (recyclePointMaterial == null)
+            {
+                return BadRequest("Obrigatório informar os dados para vínculo do ponto de reciclagem ao material.");
+            }
+
+            var errorMessage = recyclePointMaterial.Validate();
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return BadRequest(errorMessage);
+            }
+
+            var createdPointMaterial = await _recyclePointMaterialService.CreateAsync(recyclePointMaterial);
+            return CreatedAtAction(nameof(AddMaterialToRecyclePoint), createdPointMaterial);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao criar vínculo de ponto de reciclagem ao material: {ex.Message}");
+        }
+    }
+
+    [HttpDelete("deletematerial/{id}")]
+    public async Task<IActionResult> DeleteMaterialFromRecyclePoint(int id)
+    {
+        try
+        {
+            var result = await _recyclePointMaterialService.DeleteAsync(id);
+            if (!result)
+            {
+                return NotFound($"Vínculo de ponto de reciclagem ao material com ID {id} não encontrado.");
+            }
+
+            return Ok($"Vínculo de ponto de reciclagem ao material com ID {id} deletado com sucesso.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao deletar vínculo de ponto de reciclagem ao material: {ex.Message}");
+        }
+    }
+
+    [HttpGet("getmaterial/{recyclePointId}")]
+    public async Task<IActionResult> GetMaterialsByRecyclePointId(int recyclePointId)
+    {
+        try
+        {
+            if(recyclePointId <= 0)
+            {
+                return BadRequest("Obrigatório informar um ID válido.");
+            }
+
+            var materials = await _recyclePointMaterialService.GetByRecyclePointIdAsync(recyclePointId);
+            return Ok(materials);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(500, $"Erro ao obter materiais a partir de ponto de reciclagem: {ex.Message}");
         }
     }
 }

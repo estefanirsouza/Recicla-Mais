@@ -74,6 +74,7 @@ builder.Services.AddScoped<IRecyclePointRepository, RecyclePointRepository>();
 builder.Services.AddScoped<IRecycleRewardRepository, RecycleRewardRepository>();
 builder.Services.AddScoped<IUserRewardRepository, UserRewardRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRecyclePointMaterialRepository, RecyclePointMaterialRepository>();
 
 // Register Services
 builder.Services.AddScoped<IRecycleMaterialService, RecycleMaterialService>();
@@ -81,6 +82,7 @@ builder.Services.AddScoped<IRecyclePointService, RecyclePointService>();
 builder.Services.AddScoped<IRecycleRewardService, RecycleRewardService>();
 builder.Services.AddScoped<IUserRewardService, UserRewardService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRecyclePointMaterialService, RecyclePointMaterialService>();
 
 
 // Configure CORS - Allow all for development

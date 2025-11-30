@@ -10,6 +10,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<RecyclePoint> RecyclePoints { get; set; }
     public DbSet<RecycleReward> RecycleRewards { get; set; }
     public DbSet<UserReward> UserRewards { get; set; }
+    public DbSet<RecyclePointMaterial> RecyclePointMaterials { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)

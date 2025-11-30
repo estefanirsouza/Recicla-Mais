@@ -16,14 +16,43 @@ function atualizarNomeUsuario() {
     const nomeCompleto = `${userData.name || ''} ${userData.surname || ''}`.trim();
     nomeElement.textContent = nomeCompleto || userData.userName || 'Usuário';
   } else if (nomeElement && !userData) {
-    // Se não estiver autenticado, redirecionar para login
     window.location.href = '../Publico/login.html';
   }
 }
 
-//Menu
-document.addEventListener('DOMContentLoaded', () => {
-  // Atualizar nome do usuário
+// =========================================================
+// 🔵 BUSCA RECOMPENSAS DO USUÁRIO NA API (CORRETO)
+// =========================================================
+async function carregarRecompensasAPI() {
+  const userData = obterDadosUsuario();
+  if (!userData) {
+    alert("Você precisa estar logado.");
+    window.location.href = "../Publico/login.html";
+    return [];
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/UserReward/user/${userData.id}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${userData.token}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao buscar recompensas na API");
+    }
+
+    return await response.json();
+
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
   atualizarNomeUsuario();
   
   const hamburger = document.getElementById('hamburger');
@@ -34,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
       menuMobile.classList.toggle('show');
     });
 
-    // Fecha o menu ao clicar em algum link
     const mobileLinks = menuMobile.querySelectorAll('.mobile-link');
     mobileLinks.forEach(link => {
       link.addEventListener('click', () => {
@@ -43,128 +71,144 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-// MODAL DO OLHINHO
-// ==============================
+  // ====================================================================
+  // 🔵 CARREGAR RECOMPENSAS NA TABELA
+  // ====================================================================
+  const tabelaBody = document.querySelector(".tabela-recompensas tbody");
+  const dados = await carregarRecompensasAPI();
 
-const modal = document.getElementById("modal");
-const fecharModal = document.getElementById("fecharModal");
+  tabelaBody.innerHTML = "";
 
-const tokenEl = document.getElementById("modalToken");
-const recompensaEl = document.getElementById("modalRecompensa");
-const validadeEl = document.getElementById("modalValidade");
+  // 🔧 ***AQUI SÃO AS ÚNICAS MUDANÇAS***
+  dados.forEach(item => {
+    const tr = document.createElement("tr");
 
-// Abrir modal ao clicar no olhinho
-document.querySelectorAll(".icone-olho.ver").forEach((icone) => {
-  icone.addEventListener("click", () => {
+    const parceiroOuLoja =
+      item.reward?.userPartnerId
+        ? "Parceiro"
+        : item.reward?.userStoreId
+        ? "Loja"
+        : "—";
 
-    const row = icone.closest("tr");
+    tr.innerHTML = `
+      <td>${parceiroOuLoja}</td>
+      <td>${item.token ?? "—"}</td>
+      <td>${formatarData(item.dateCreated)}</td>
+      <td>${item.reward?.name ?? "—"}</td>
+      <td>${item.tokenUsed ? "Utilizado" : "Pendente"}</td>
+      <td>${formatarData(item.dateValid)}</td>
+      <td>—</td>
+      <td><i class="icone-olho ver" style="cursor:pointer; font-size:20px;">👁</i></td>
+    `;
 
-    const codigo = row.children[1].textContent.trim();
-    const recompensa = row.children[3].textContent.trim();
-    const validade = row.children[5].textContent.trim();
+    tabelaBody.appendChild(tr);
+  });
+  // 🔧 ***FIM DAS MUDANÇAS***
 
+
+  // MODAL
+  const modal = document.getElementById("modal");
+  const fecharModal = document.getElementById("fecharModal");
+
+  const tokenEl = document.getElementById("modalToken");
+  const recompensaEl = document.getElementById("modalRecompensa");
+  const validadeEl = document.getElementById("modalValidade");
+
+  tabelaBody.addEventListener("click", (e) => {
+  if (e.target.classList.contains("icone-olho")) {
+    const row = e.target.closest("tr");
+
+    // ID real do item no array original
+    const rewardId = row.dataset.rewardId;
+
+    // pega o item correspondente da API
+    const item = dados.find(x => x.id == rewardId);
+
+    // dados da recompensa
+    const codigo = item.token ?? "—";
+    const recompensa = item.reward?.name ?? "—";
+    const validade = formatarData(item.dateValid);
+
+    // dados da localidade
+    const address = item.reward?.address ?? "";
+    const neighborhood = item.reward?.neighborhood ?? "";
+    const city = item.reward?.city ?? "";
+    const state = item.reward?.state ?? "";
+
+    const localidade =
+      city || state
+        ? `${address}, ${neighborhood} — ${city} / ${state}`
+        : "—";
+
+    // preencher modal
     tokenEl.textContent = codigo;
     recompensaEl.textContent = recompensa;
     validadeEl.textContent = `até ${validade}`;
 
+    // localidade (HTML usa id="modalLocal")
+    const localidadeEl = document.getElementById("modalLocal");
+    localidadeEl.textContent = localidade;
+
     modal.style.display = "flex";
-  });
+  }
 });
 
-// Fechar modal
-fecharModal.addEventListener("click", () => {
-  modal.style.display = "none";
-});
+  fecharModal.addEventListener("click", () => modal.style.display = "none");
+  window.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
 
-window.addEventListener("click", (e) => {
-  if (e.target === modal) modal.style.display = "none";
-});
-
-//Paginação
+  // Paginação
+ // Paginação
 const rowsPerPage = 6;
-const table = document.querySelector(".tabela-recompensas tbody");
-const rows = Array.from(table.querySelectorAll("tr"));
+let rows = []; // inicia vazio
 const paginationContainer = document.getElementById("pagination");
 
-function displayPage(page) {
-  table.innerHTML = "";
+// 🚀 Atualiza as linhas DEPOIS de preencher a tabela
+rows = Array.from(document.querySelectorAll(".tabela-recompensas tbody tr"));
 
-  const start = (page - 1) * rowsPerPage;
-  const end = start + rowsPerPage;
+  function displayPage(page) {
+    tabelaBody.innerHTML = "";
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
 
-  const paginatedRows = rows.slice(start, end);
-
-  paginatedRows.forEach(row => table.appendChild(row));
-
-  updatePaginationButtons(page);
-}
-
-function updatePaginationButtons(currentPage) {
-  const totalPages = Math.ceil(rows.length / rowsPerPage);
-  paginationContainer.innerHTML = "";
-
-  const prevBtn = document.createElement("button");
-  prevBtn.textContent = "Anterior";
-  prevBtn.disabled = currentPage === 1;
-  prevBtn.classList.toggle("disabled", currentPage === 1);
-  prevBtn.onclick = () => displayPage(currentPage - 1);
-  paginationContainer.appendChild(prevBtn);
-
-  for (let i = 1; i <= totalPages; i++) {
-    const button = document.createElement("button");
-    button.textContent = i;
-
-    if (i === currentPage) button.classList.add("active");
-
-    button.onclick = () => displayPage(i);
-    paginationContainer.appendChild(button);
+    rows.slice(start, end).forEach(row => tabelaBody.appendChild(row));
+    updatePaginationButtons(page);
   }
 
-  const nextBtn = document.createElement("button");
-  nextBtn.textContent = "Próximo";
-  nextBtn.disabled = currentPage === totalPages;
-  nextBtn.classList.toggle("disabled", currentPage === totalPages);
-  nextBtn.onclick = () => displayPage(currentPage + 1);
-  paginationContainer.appendChild(nextBtn);
-}
-displayPage(1);
+  function updatePaginationButtons(currentPage) {
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
+    paginationContainer.innerHTML = "";
 
-  //Input cód
-  const codeBoxes = Array.from(document.querySelectorAll('.code-box'));
-  codeBoxes.forEach((input, idx) => {
-    input.addEventListener('input', (e) => {
-      const val = e.target.value;
-      e.target.value = val.slice(-1).trim();
-      if (e.target.value && idx < codeBoxes.length - 1) codeBoxes[idx + 1].focus();
-    });
+    const prevBtn = document.createElement("button");
+    prevBtn.textContent = "Anterior";
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.onclick = () => displayPage(currentPage - 1);
+    paginationContainer.appendChild(prevBtn);
 
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace' && !e.target.value && idx > 0) {
-        codeBoxes[idx - 1].focus();
-      }
-    });
+    for (let i = 1; i <= totalPages; i++) {
+      const button = document.createElement("button");
+      button.textContent = i;
+      if (i === currentPage) button.classList.add("active");
+      button.onclick = () => displayPage(i);
+      paginationContainer.appendChild(button);
+    }
 
-    input.addEventListener('paste', (ev) => {
-      ev.preventDefault();
-      const paste = (ev.clipboardData || window.clipboardData).getData('text').trim();
-      for (let i = 0; i < paste.length && (idx + i) < codeBoxes.length; i++) {
-        codeBoxes[idx + i].value = paste[i];
-      }
-      for (let j = idx; j < codeBoxes.length; j++) {
-        if (!codeBoxes[j].value) { codeBoxes[j].focus(); return; }
-      }
-      codeBoxes[codeBoxes.length - 1].focus();
-    });
-  });
-
-  //Botão Recompensa
-  const btnGenerate = document.getElementById('btnGenerate');
-  if (btnGenerate) {
-    btnGenerate.addEventListener('click', () => {
-      window.location.href = 'recompensas.html';
-    });
+    const nextBtn = document.createElement("button");
+    nextBtn.textContent = "Próximo";
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.onclick = () => displayPage(currentPage + 1);
+    paginationContainer.appendChild(nextBtn);
   }
 
-  //FOCUS INICIAL
-  if (codeBoxes.length) codeBoxes[0].focus();
+  displayPage(1);
 });
+
+// =========================================================
+// 🔵 Função utilitária — formatar datas da API
+// =========================================================
+function formatarData(data) {
+  if (!data) return "—";
+  return new Date(data).toLocaleString("pt-BR", {
+    dateStyle: "short",
+    timeStyle: "short"
+  });
+}

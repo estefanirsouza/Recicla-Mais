@@ -130,7 +130,8 @@ async function fazerLogin(email, password) {
         name: data.name,
         surname: data.surname,
         userName: data.userName,
-        roles: data.roles
+        roles: data.roles,
+        token: data.token
       }));
     }
     

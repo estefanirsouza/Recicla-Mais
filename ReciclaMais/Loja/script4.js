@@ -1,107 +1,100 @@
-//Menu
-document.addEventListener('DOMContentLoaded', () => {
-  const hamburger = document.getElementById('hamburger');
-  const menuMobile = document.getElementById('menu-mobile');
+// script4.js - Loja
+console.log("JS CARREGOU!");
 
-  if (hamburger && menuMobile) {
-    hamburger.addEventListener('click', () => {
-      menuMobile.classList.toggle('show');
-    });
+// Configuração da API
+const API_BASE_URL = 'http://ec2-54-233-50-250.sa-east-1.compute.amazonaws.com:5000/api';
 
-    // Fecha o menu ao clicar em algum link
-    const mobileLinks = menuMobile.querySelectorAll('.mobile-link');
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        menuMobile.classList.remove('show');
-      });
-    });
+// Função para obter token de autenticação
+function obterToken() {
+  return localStorage.getItem('authToken');
 }
 
-//Paginação
-const rowsPerPage = 6;
-const table = document.querySelector(".tabela-recompensas tbody");
-const rows = Array.from(table.querySelectorAll("tr"));
-const paginationContainer = document.getElementById("pagination");
-
-function displayPage(page) {
-  table.innerHTML = "";
-
-  const start = (page - 1) * rowsPerPage;
-  const end = start + rowsPerPage;
-
-  const paginatedRows = rows.slice(start, end);
-
-  paginatedRows.forEach(row => table.appendChild(row));
-
-  updatePaginationButtons(page);
+// Função para obter dados do usuário do localStorage
+function obterDadosUsuario() {
+  const userData = localStorage.getItem('userData');
+  return userData ? JSON.parse(userData) : null;
 }
 
-function updatePaginationButtons(currentPage) {
-  const totalPages = Math.ceil(rows.length / rowsPerPage);
-  paginationContainer.innerHTML = "";
+// Função para buscar dados da loja na API
+async function buscarDadosLojaAPI(userId) {
+  try {
+    const token = obterToken();
+    if (!token) {
+      throw new Error('Usuário não autenticado');
+    }
 
-  const prevBtn = document.createElement("button");
-  prevBtn.textContent = "Anterior";
-  prevBtn.disabled = currentPage === 1;
-  prevBtn.classList.toggle("disabled", currentPage === 1);
-  prevBtn.onclick = () => displayPage(currentPage - 1);
-  paginationContainer.appendChild(prevBtn);
+    // Buscar todas as lojas e filtrar por userId
+    const response = await fetch(`${API_BASE_URL}/RecycleReward/getall`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
 
-  for (let i = 1; i <= totalPages; i++) {
-    const button = document.createElement("button");
-    button.textContent = i;
+    if (!response.ok) {
+      throw new Error('Erro ao buscar dados da loja');
+    }
 
-    if (i === currentPage) button.classList.add("active");
+    const lojas = await response.json();
+    // Encontrar a loja associada a este usuário
+    const loja = lojas.find(l => l.userId === userId);
+    return loja;
+  } catch (error) {
+    console.error('Erro ao buscar dados da loja:', error);
+    return null;
+  }
+}
 
-    button.onclick = () => displayPage(i);
-    paginationContainer.appendChild(button);
+// Função para atualizar nome da loja na página
+async function atualizarNomeLoja() {
+  const userData = obterDadosUsuario();
+  const nomeElement = document.getElementById('nome-loja');
+  
+  if (!userData || !userData.id) {
+    // Se não estiver autenticado, redirecionar para login
+    window.location.href = '../Publico/login.html';
+    return;
+  }
+  
+  if (nomeElement) {
+    // Tentar buscar dados da loja da API
+    try {
+      const dadosLoja = await buscarDadosLojaAPI(userData.id);
+      if (dadosLoja && dadosLoja.name) {
+        nomeElement.textContent = dadosLoja.name;
+      } else {
+        // Fallback para nome do usuário se não encontrar loja
+        const nomeCompleto = `${userData.name || ''} ${userData.surname || ''}`.trim();
+        nomeElement.textContent = nomeCompleto || userData.userName || 'Loja';
+      }
+    } catch (error) {
+      console.error('Erro ao buscar nome da loja:', error);
+      // Fallback para nome do usuário
+      const nomeCompleto = `${userData.name || ''} ${userData.surname || ''}`.trim();
+      nomeElement.textContent = nomeCompleto || userData.userName || 'Loja';
+    }
+  }
+}
+
+// ======================= MENU MOBILE =======================
+document.addEventListener("DOMContentLoaded", async () => {
+  // Atualizar nome da loja
+  await atualizarNomeLoja();
+  
+  const hamburger = document.getElementById("hamburger");
+  const menuMobile = document.getElementById("menu-mobile");
+
+  if (hamburger) {
+    hamburger.addEventListener("click", () => {
+      menuMobile.classList.toggle("show");
+    });
   }
 
-  const nextBtn = document.createElement("button");
-  nextBtn.textContent = "Próximo";
-  nextBtn.disabled = currentPage === totalPages;
-  nextBtn.classList.toggle("disabled", currentPage === totalPages);
-  nextBtn.onclick = () => displayPage(currentPage + 1);
-  paginationContainer.appendChild(nextBtn);
-}
-displayPage(1);
-
-  //Input cód
-  const codeBoxes = Array.from(document.querySelectorAll('.code-box'));
-  codeBoxes.forEach((input, idx) => {
-    input.addEventListener('input', (e) => {
-      const val = e.target.value;
-      e.target.value = val.slice(-1).trim();
-      if (e.target.value && idx < codeBoxes.length - 1) codeBoxes[idx + 1].focus();
-    });
-
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace' && !e.target.value && idx > 0) {
-        codeBoxes[idx - 1].focus();
-      }
-    });
-
-    input.addEventListener('paste', (ev) => {
-      ev.preventDefault();
-      const paste = (ev.clipboardData || window.clipboardData).getData('text').trim();
-      for (let i = 0; i < paste.length && (idx + i) < codeBoxes.length; i++) {
-        codeBoxes[idx + i].value = paste[i];
-      }
-      for (let j = idx; j < codeBoxes.length; j++) {
-        if (!codeBoxes[j].value) { codeBoxes[j].focus(); return; }
-      }
-      codeBoxes[codeBoxes.length - 1].focus();
+  const links = menuMobile.querySelectorAll(".mobile-link");
+  links.forEach((link) => {
+    link.addEventListener("click", () => {
+      menuMobile.classList.remove("show");
     });
   });
-
-  //Botão Recompensa
-  const btnGenerate = document.getElementById('btnGenerate');
-  if (btnGenerate) {
-    btnGenerate.addEventListener('click', () => {
-      window.location.href = 'recompensas.html';
-    });
-  }
-
-  //FOCUS INICIAL
-  if (codeBoxes.length) codeBoxes[0].focus();
 });

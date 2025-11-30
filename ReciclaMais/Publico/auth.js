@@ -18,7 +18,7 @@ const API_BASE_URL = 'http://ec2-54-233-50-250.sa-east-1.compute.amazonaws.com:5
  */
 function mapearTipoParaRole(tipoAcesso) {
   const mapeamento = {
-    'reciclador': 'Store',
+    'loja': 'Store',
     'parceiro': 'Partner',
     'publico': 'User'
   };

@@ -2,6 +2,11 @@
 const API_BASE_URL =
   "http://ec2-54-233-50-250.sa-east-1.compute.amazonaws.com:5000/api";
 
+// ======================= USUÁRIO FIXO PARA VINCULAR TOKEN =======================
+// ❗ AGORA É DIRETO PELO ID, SEM E-MAIL E SEM CARREGAR VIA API
+const USER_ID_FIXO = "d291fb6e-d2c0-4cc5-ac19-e2d0c07226b2"; 
+
+
 // Função para obter token de autenticação
 function obterToken() {
   return localStorage.getItem("authToken");
@@ -13,15 +18,12 @@ function obterDadosUsuario() {
   return userData ? JSON.parse(userData) : null;
 }
 
-// Função para buscar dados do parceiro (ponto de reciclagem) da API
+// Função para buscar dados do parceiro (ponto de reciclagem)
 async function buscarDadosParceiroAPI(userId) {
   try {
     const token = obterToken();
-    if (!token) {
-      throw new Error("Usuário não autenticado");
-    }
+    if (!token) throw new Error("Usuário não autenticado");
 
-    // Buscar todos os pontos de reciclagem e filtrar por userId
     const response = await fetch(`${API_BASE_URL}/RecyclePoint/getall`, {
       method: "GET",
       headers: {
@@ -30,59 +32,46 @@ async function buscarDadosParceiroAPI(userId) {
       },
     });
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar dados do parceiro");
-    }
+    if (!response.ok) throw new Error("Erro ao buscar dados do parceiro");
 
-    const pontos = await response.json();
-    // Encontrar o ponto de reciclagem associado a este usuário
-    const pontoParceiro = pontos.find((p) => p.userId === userId);
-    return pontoParceiro;
+    const lista = await response.json();
+    return lista.find((p) => p.userId === userId) || null;
+
   } catch (error) {
     console.error("Erro ao buscar dados do parceiro:", error);
     return null;
   }
 }
 
-// Função para atualizar nome do parceiro na página
+// Atualizar nome do parceiro na página
 async function atualizarNomeParceiro() {
   const userData = obterDadosUsuario();
   const nomeElement = document.getElementById("nome-parceiro");
 
   if (!userData || !userData.id) {
-    // Se não estiver autenticado, redirecionar para login
     window.location.href = "../Publico/login.html";
     return;
   }
 
   if (nomeElement) {
-    // Tentar buscar dados do parceiro da API
     try {
       const dadosParceiro = await buscarDadosParceiroAPI(userData.id);
-      if (dadosParceiro && dadosParceiro.name) {
+      if (dadosParceiro?.name) {
         nomeElement.textContent = dadosParceiro.name;
       } else {
-        // Fallback para nome do usuário se não encontrar ponto de reciclagem
-        const nomeCompleto = `${userData.name || ""} ${
-          userData.surname || ""
-        }`.trim();
-        nomeElement.textContent =
-          nomeCompleto || userData.userName || "Parceiro";
+        const nomeCompleto = `${userData.name || ""} ${userData.surname || ""}`.trim();
+        nomeElement.textContent = nomeCompleto || userData.userName || "Parceiro";
       }
+
     } catch (error) {
-      console.error("Erro ao buscar nome do parceiro:", error);
-      // Fallback para nome do usuário
-      const nomeCompleto = `${userData.name || ""} ${
-        userData.surname || ""
-      }`.trim();
-      nomeElement.textContent = nomeCompleto || userData.userName || "Parceiro";
+      const fallback = `${userData.name || ""} ${userData.surname || ""}`.trim();
+      nomeElement.textContent = fallback || userData.userName || "Parceiro";
     }
   }
 }
 
 // ======================= MENU MOBILE =======================
 document.addEventListener("DOMContentLoaded", async () => {
-  // Atualizar nome do parceiro
   await atualizarNomeParceiro();
 
   const hamburger = document.getElementById("hamburger");
@@ -101,7 +90,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // Só carrega recompensas se a tabela existir na página
   if (document.querySelector(".tabela-recompensas tbody")) {
     carregarRecompensas();
   }
@@ -119,9 +107,20 @@ let rows = [];
 const rowsPerPage = 6;
 
 // ======================= CARREGAR DADOS =======================
+// ======================= CARREGAR DADOS =======================
 async function carregarRecompensas() {
   try {
-    const res = await fetch(API + "/getall");
+    const usuario = obterDadosUsuario();
+
+    if (!usuario || !usuario.id) {
+      alert("Erro: parceiro não identificado!");
+      return;
+    }
+
+    const partnerId = usuario.id;
+
+    // AGORA LISTA SOMENTE AS RECOMPENSAS DO PARCEIRO LOGADO
+    const res = await fetch(`${API}/partner/${partnerId}`);
     const dados = await res.json();
 
     rows = [];
@@ -132,11 +131,7 @@ async function carregarRecompensas() {
 
       tr.innerHTML = `
         <td>${item.recycleRewardId}</td>
-        <td>${
-          item.dateUpdate
-            ? item.dateUpdate.split("T")[0]
-            : item.dateInsert.split("T")[0]
-        }</td>
+        <td>${item.dateUpdate ? item.dateUpdate.split("T")[0] : item.dateInsert.split("T")[0]}</td>
         <td>${item.name}</td>
         <td>${item.city ?? "--"}</td>
         <td class="status disponivel">Disponível</td>
@@ -149,11 +144,11 @@ async function carregarRecompensas() {
                  alt="Editar"
                  onclick="editar(${item.recycleRewardId})">
 
-              <i class="fa-solid fa-ticket gerar-token"
-                 data-reward-id="${item.recycleRewardId}"
-                 title="Gerar Token"
-                 style="cursor:pointer; margin-left:12px; font-size:20px; color:#fffff;">
-             </i>
+            <i class="fa-solid fa-ticket gerar-token"
+               data-reward-id="${item.recycleRewardId}"
+               title="Gerar Token"
+               style="cursor:pointer; margin-left:12px; font-size:20px;">
+            </i>
         </td>
       `;
 
@@ -161,6 +156,7 @@ async function carregarRecompensas() {
     });
 
     displayPage(1);
+
   } catch (error) {
     console.error("Erro ao carregar recompensas:", error);
     alert("Erro ao carregar recompensas!");
@@ -217,7 +213,6 @@ function updatePaginationButtons(currentPage) {
 if (searchInput) {
   searchInput.addEventListener("input", () => {
     const filtro = searchInput.value.toLowerCase();
-
     const filtrado = rows.filter((row) =>
       row.textContent.toLowerCase().includes(filtro)
     );
@@ -226,47 +221,52 @@ if (searchInput) {
     filtrado.forEach((row) => tableBody.appendChild(row));
   });
 }
+
 // ======================================
-// GERAR TOKEN AO CLICAR NO ÍCONE
+// GERAR TOKEN SEMPRE VINCULADO AO USUÁRIO FIXO
 // ======================================
 document.addEventListener("click", async function (e) {
 
-    if (!e.target.classList.contains("gerar-token")) return;
+  if (!e.target.classList.contains("gerar-token")) return;
 
-    const recycleRewardId = e.target.getAttribute("data-reward-id");
-    const user = obterDadosUsuario();
-    const token = obterToken();
+  const recycleRewardId = e.target.getAttribute("data-reward-id");
+  const token = obterToken();
 
-    if (!user || !token) {
-        alert("Você precisa fazer login novamente.");
-        window.location.href = "../Publico/login.html";
-        return;
+  if (!USER_ID_FIXO) {
+    alert("ID fixo do usuário não configurado.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/userreward/generate`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        recycleRewardId: Number(recycleRewardId),
+        userId: USER_ID_FIXO // 👈 AGORA É SOMENTE ESTE ID
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Erro API Generate:", data);
+      alert("Erro ao gerar token (veja console).");
+      return;
     }
 
-    try {
-        const response = await fetch(`${API_BASE_URL}/userreward/generate`, {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                recycleRewardId: Number(recycleRewardId),
-                userId: user.id
-            })
-        });
+    alert(
+      `Token gerado com sucesso!\n` +
+      `Token: ${data.token}\n\n` +
+      `Enviado com:\n` +
+      `UserId: ${USER_ID_FIXO}`
+    );
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            alert("Erro ao gerar token: " + JSON.stringify(data));
-            return;
-        }
-
-        alert(`Token gerado: ${data.token}`);
-
-    } catch (error) {
-        console.error(error);
-        alert("Erro ao gerar token.");
-    }
+  } catch (error) {
+    console.error("Erro ao gerar token:", error);
+    alert("Erro ao gerar token.");
+  }
 });

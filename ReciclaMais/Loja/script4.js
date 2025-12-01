@@ -1,8 +1,27 @@
-// script4.js - Loja
-console.log("JS CARREGOU!");
-
 // ======================= CONFIGURAÇÕES GERAIS =======================
+// ======================= HELPERS GLOBAIS =======================
+function obterToken() {
+  try {
+    return localStorage.getItem('authToken');
+  } catch (e) {
+    console.error('Erro ao acessar localStorage (obterToken):', e);
+    return null;
+  }
+}
+
+function obterDadosUsuario() {
+  try {
+    const userData = localStorage.getItem('userData');
+    return userData ? JSON.parse(userData) : null;
+  } catch (e) {
+    console.error('Erro ao acessar localStorage (obterDadosUsuario):', e);
+    return null;
+  }
+}
+
 const API_BASE_URL = 'http://ec2-54-233-50-250.sa-east-1.compute.amazonaws.com:5000/api';
+
+StoreId: "b443154a-c6c5-48d0-a1ce-cbdf278aab6b",
 
 function obterToken() {
   return localStorage.getItem('authToken');
@@ -11,31 +30,6 @@ function obterToken() {
 function obterDadosUsuario() {
   const userData = localStorage.getItem('userData');
   return userData ? JSON.parse(userData) : null;
-}
-
-// ======================= BUSCAR DADOS DA LOJA =======================
-async function buscarDadosLojaAPI(userId) {
-  try {
-    const token = obterToken();
-    if (!token) throw new Error('Usuário não autenticado');
-
-    const response = await fetch(`${API_BASE_URL}/RecycleReward/getall`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    });
-
-    if (!response.ok) throw new Error('Erro ao buscar dados da loja');
-
-    const lojas = await response.json();
-    return lojas.find(l => l.userId === userId) || null;
-
-  } catch (error) {
-    console.error('Erro ao buscar dados da loja:', error);
-    return null;
-  }
 }
 
 // ======================= ATUALIZAR NOME DA LOJA =======================
@@ -48,25 +42,16 @@ async function atualizarNomeLoja() {
     return;
   }
 
+  // ⭐ Loja = o próprio usuário
+  STORE_ID_DA_LOJA = userData.id;
+
+  console.log("STORE_ID_DA_LOJA DEFINIDO COMO:", STORE_ID_DA_LOJA);
+
   if (nomeElement) {
-    try {
-      const dadosLoja = await buscarDadosLojaAPI(userData.id);
-
-      if (dadosLoja?.name) {
-        nomeElement.textContent = dadosLoja.name;
-      } else {
-        const nomeCompleto = `${userData.name || ''} ${userData.surname || ''}`.trim();
-        nomeElement.textContent = nomeCompleto || userData.userName || 'Loja';
-      }
-
-    } catch (error) {
-      console.error(error);
-      const fallback = `${userData.name || ''} ${userData.surname || ''}`.trim();
-      nomeElement.textContent = fallback || userData.userName || 'Loja';
-    }
+    const nomeCompleto = `${userData.name || ''} ${userData.surname || ''}`.trim();
+    nomeElement.textContent = nomeCompleto || userData.userName || 'Loja';
   }
 }
-
 
 // ======================= DOM READY =======================
 document.addEventListener("DOMContentLoaded", async () => {
@@ -98,11 +83,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function displayPage(page) {
     if (!table) return;
-
     table.innerHTML = "";
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
-
     rows.slice(start, end).forEach(row => table.appendChild(row));
     updatePaginationButtons(page);
   }
@@ -171,49 +154,91 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // ======================= VALIDAR TOKEN =======================
-  async function validarToken() {
-    const tokenDigitado = codeBoxes.map(i => i.value).join('').toUpperCase();
+ async function validarToken() {
+  console.log("Validando token...");
 
-    if (tokenDigitado.length < 5) {
-      alert("Digite o código completo.");
-      return;
-    }
+  // ------------------------------
+  // 1) Token digitado
+  // ------------------------------
+  const tokenDigitado = codeBoxes.map(i => i.value).join('').toUpperCase();
 
-    const userData = obterDadosUsuario();
-    if (!userData || !userData.token) {
-      alert("Usuário não autenticado.");
-      return;
-    }
-
-    try {
-      const response = await fetch(`${API_BASE_URL}/userreward/validatetoken`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${userData.token}`
-        },
-        body: JSON.stringify({
-          Token: tokenDigitado,
-          StoreId: "7ac52d2f-2259-4061-afd3-2d7298825c9e",
-          PartnerId: null
-        })
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        alert(result.message || "Token inválido.");
-        return;
-      }
-
-      alert("Token válido! 🎉");
-      preencherTabela(result);
-
-    } catch (error) {
-      console.error("Erro ao validar token:", error);
-      alert("Erro na validação. Tente novamente.");
-    }
+  if (tokenDigitado.length < 5) {
+    alert("Digite o código completo.");
+    return;
   }
+  console.log("Token digitado:", tokenDigitado);
+
+  // ------------------------------
+  // 2) Autenticação
+  // ------------------------------
+  if (typeof obterToken !== "function") {
+    console.error("❌ ERRO: obterToken() NÃO EXISTE!");
+    alert("Erro interno: Função obterToken ausente.");
+    return;
+  }
+
+  const authToken = obterToken();
+  console.log("Auth token:", authToken);
+
+  if (!authToken) {
+    alert("Erro de autenticação. Faça login novamente.");
+    return;
+  }
+
+  // ------------------------------
+  // 3) StoreId fixo solicitado
+  // ------------------------------
+  const STORE_ID_FIXO = "b443154a-c6c5-48d0-a1ce-cbdf278aab6b";
+  console.log("StoreId enviado:", STORE_ID_FIXO);
+
+  // ------------------------------
+  // 4) Requisição POST
+  // ------------------------------
+  try {
+    const response = await fetch(`${API_BASE_URL}/userreward/validatetoken`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${authToken}`
+      },
+      body: JSON.stringify({
+        Token: tokenDigitado,
+        StoreId: STORE_ID_FIXO,
+        PartnerId: null
+      })
+    });
+
+    console.log("Response status:", response.status);
+
+    const rawText = await response.text();
+    console.log("RAW RESPONSE:", rawText);
+
+    let json = null;
+    try { json = JSON.parse(rawText); }
+    catch { console.warn("Resposta não era JSON."); }
+
+    // ------------------------------
+    // 5) Erro da API
+    // ------------------------------
+    if (!response.ok) {
+      console.error("Erro retornado pela API:", json?.message || rawText);
+      alert(json?.message || "Token inválido.");
+      return;
+    }
+
+    // ------------------------------
+    // 6) Sucesso
+    // ------------------------------
+    alert("Token validado com sucesso!");
+
+    if (json) preencherTabela(json);
+
+  } catch (error) {
+    console.error("FALHA NO FETCH:", error);
+    alert("Erro ao validar token. Veja o console.");
+  }
+}
+
 
   // ======================= BOTÃO =======================
   const btnGenerate = document.getElementById('btnGenerate');

@@ -17,6 +17,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// ======================= IDs FIXOS =======================
+// Loja fixa vinculada à recompensa
+const STORE_ID_FIXO = "b443154a-c6c5-48d0-a1ce-cbdf278aab6b";
+
+const PARTNER_ID_FIXO = "41a7404c-a9e5-4795-9510-268fcfb6c045";
+
+// Obter dados do usuário logado
+function obterDadosUsuario() {
+  const userData = localStorage.getItem("userData");
+  return userData ? JSON.parse(userData) : null;
+}
+
 // ======================= API CONFIG =======================
 const API =
   "http://ec2-54-233-50-250.sa-east-1.compute.amazonaws.com:5000/api/recyclereward";
@@ -87,59 +99,49 @@ if (form) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // Validar usuário logado
+    const usuario = obterDadosUsuario();
+    if (!usuario || !usuario.id) {
+      alert("Erro: parceiro não identificado!");
+      return;
+    }
+
+    
+
     // ------------------------------
-    // VALIDAÇÃO DOS CAMPOS OBRIGATÓRIOS
+    // VALIDAÇÃO DOS CAMPOS
     // ------------------------------
     let erros = [];
 
-    if (!campoNome.value.trim()) {
-      erros.push("- Nome da Recompensa");
-    }
-
-    if (!campoPontos.value || Number(campoPontos.value) <= 0) {
+    if (!campoNome.value.trim()) erros.push("- Nome da Recompensa");
+    if (!campoPontos.value || Number(campoPontos.value) <= 0)
       erros.push("- Dias Válidos (maior que zero)");
-    }
+    if (!campoCidade.value.trim()) erros.push("- Cidade");
+    if (!campoEstado.value.trim()) erros.push("- Estado");
 
-    if (!campoCidade.value.trim()) {
-      erros.push("- Cidade");
-    }
-
-    if (!campoEstado.value.trim()) {
-      erros.push("- Estado");
-    }
-
-    // Se houver erros → impede o envio
     if (erros.length > 0) {
-      alert(
-        "⚠ Por favor, preencha os seguintes campos obrigatórios:\n\n" +
-          erros.join("\n")
-      );
+      alert("⚠ Preencha:\n\n" + erros.join("\n"));
       return;
     }
 
     // ------------------------------
-    // OBJETO A ENVIAR PARA A API
+    // OBJETO A ENVIAR
     // ------------------------------
     const objeto = {
       name: campoNome.value,
       description: campoDescricao.value,
       defaultValidDays: Number(campoPontos.value),
 
-      // Obrigatórios na API
       city: campoCidade.value,
       state: campoEstado.value,
-
-      // Opcionais, mas aceitos
       address: campoEndereco.value || "Não informado",
       neighborhood: campoBairro.value || "Não informado",
-      city: campoCidade.value || "Não informado",
-      state: campoEstado.value || "Não informado",
       zipCode: campoCep.value || "Não informado",
       phoneNumber: campoTelefone.value || "Não informado",
 
-      // GUIDs obrigatórios
-      userStoreId: "7ac52d2f-2259-4061-afd3-2d7298825c9e",
-      userPartnerId: "205dd8d2-8344-4ad4-8ff5-a1abe0aada89",
+      // IDs dinâmicos
+      userStoreId: STORE_ID_FIXO,
+      userPartnerId: PARTNER_ID_FIXO, // agora fixo
     };
 
     try {
